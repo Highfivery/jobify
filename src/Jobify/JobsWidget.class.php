@@ -21,7 +21,19 @@ class JobsWidget extends \WP_Widget {
    * @param array $instance Saved values from database.
    */
   public function widget( $args, $instance ) {
-    $jobs = $this->get_github_jobs($instance);
+    global $jobifyAPIs;
+
+    $jobs = array();
+
+    foreach ( $jobifyAPIs as $key => $ary )
+    {
+      $enabled = ! empty( $instance[$ary['name']] ) ? $instance[$ary['name']] : FALSE;
+
+      if ( $enabled )
+      {
+        $jobs = array_merge( $jobs, $ary['getJobs']( $instance ) );
+      }
+    }
 
     echo $args['before_widget'];
     if ( ! empty( $instance['title'] ) ) {
@@ -31,9 +43,9 @@ class JobsWidget extends \WP_Widget {
     if ( count( $jobs ) > 0 ) {
       shuffle( $jobs );
       $cnt = 0;
-      foreach ( $jobs as $key => $obj ) { $cnt++;
+      foreach ( $jobs as $key => $ary ) { $cnt++;
         if ( ! empty( $instance['limit'] ) && $cnt > $instance['limit'] ) break;
-        echo '<p><a href="' . $obj->url . '" target="_blank">' . $obj->title. '</a> - ' . $obj->location . '</p>';
+        echo '<p><a href="' . $ary['url'] . '" target="_blank">' . $ary['title']. '</a> - ' . $ary['location'] . '</p>';
       }
     }
     else
@@ -44,24 +56,6 @@ class JobsWidget extends \WP_Widget {
     echo $args['after_widget'];
   }
 
-  public function get_github_jobs( $options ) {
-    $link = 'https://jobs.github.com/positions.json?';
-
-    if ( ! empty( $options['keyword'] ) ) {
-      $link .= 'description=' . urlencode( $options['keyword'] ) . '&';
-    }
-
-    if ( ! empty( $options['location'] ) ) {
-      $link .= 'location=' . urlencode( $options['location'] ) . '&';
-    }
-
-    if ( ! empty( $options['full_time'] ) ) {
-      $link .= 'full_time=' . urlencode( $options['full_time'] );
-    }
-
-    return json_decode( file_get_contents( $link ) );
-  }
-
   /**
    * Back-end widget form.
    *
@@ -70,35 +64,81 @@ class JobsWidget extends \WP_Widget {
    * @param array $instance Previously saved values from database.
    */
   public function form( $instance ) {
-    $title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Latest Jobs', 'jobify' );
-    $apis  = ! empty( $instance['apis'] ) ? $instance['apis'] : FALSE;
+    global $jobifyAPIs;
 
-    $keyword  = ! empty( $instance['keyword'] ) ? $instance['keyword'] : '';
-    $location = ! empty( $instance['location'] ) ? $instance['location'] : '';
-    $limit    = ! empty( $instance['limit'] ) ? $instance['limit'] : __( 'Limit', 'jobsapi' );
-    $fulltime = ! empty( $instance['fulltime'] ) ? $instance['fulltime'] : ''
+    $title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Latest Jobs', 'jobify' );
+    $limit = ! empty( $instance['limit'] ) ? $instance['limit'] : '';
     ?>
     <p>
     <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
     <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
     </p>
-     <p>
-    <label for="<?php echo $this->get_field_id( 'apis' ); ?>"><?php _e( 'APIs:' ); ?></label><br>
-    <label><input type="checkbox" name="<?php echo $this->get_field_name( 'apis' ); ?>" id="<?php echo $this->get_field_id( 'title' ); ?>" value="<?php echo esc_attr( 'GitHub' ); ?>"> <?php _e( 'GitHub Jobs' ); ?></label>
-    </p>
-    <p>
-    <label for="<?php echo $this->get_field_id( 'keyword' ); ?>"><?php _e( 'Keyword:' ); ?></label>
-    <input class="widefat" id="<?php echo $this->get_field_id( 'keyword' ); ?>" name="<?php echo $this->get_field_name( 'keyword' ); ?>" type="text" value="<?php echo esc_attr( $keyword ); ?>">
-    </p>
-    <p>
-    <label for="<?php echo $this->get_field_id( 'location' ); ?>"><?php _e( 'Location:' ); ?></label>
-    <input class="widefat" id="<?php echo $this->get_field_id( 'location' ); ?>" name="<?php echo $this->get_field_name( 'location' ); ?>" type="text" value="<?php echo esc_attr( $location ); ?>">
-    </p>
-    <p>
-    <label for="<?php echo $this->get_field_id( 'fulltime' ); ?>"><?php _e( 'Full-time:' ); ?></label><br>
-    <label><input type="radio" name="<?php echo $this->get_field_name( 'fulltime' ); ?>-yes" id="<?php echo $this->get_field_id( 'fulltime' ); ?>-yes" value="1"> <?php _e( 'Yes' ); ?></label>
-    <label><input type="radio" name="<?php echo $this->get_field_name( 'fulltime' ); ?>-no" id="<?php echo $this->get_field_id( 'fulltime' ); ?>-no" value="0"> <?php _e( 'No' ); ?></label>
-    </p>
+    <?
+
+    foreach ( $jobifyAPIs as $key => $ary )
+    {
+      $enabled = ! empty( $instance[$ary['name']] ) ? $instance[$ary['name']] : FALSE;
+      ?>
+      <div class="jobify__api">
+        <div class="jobify__api__row">
+          <div class="jobify__api__half">
+            <img src="<?php echo  $ary['logo']; ?>" alt="<?php echo $ary['title']; ?>">
+          </div>
+          <div class="jobify__api__half" style="line-height: 50px;">
+            <label><input type="checkbox" name="<?php echo $this->get_field_name( $ary['name'] ); ?>" id="<?php echo $this->get_field_id( $ary['name'] ); ?>" value="1"<?php if ( $enabled ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable' ); ?> <?php echo $ary['title']; ?></label>
+          </div>
+        </div>
+        <?php if ( $enabled ): ?>
+          <?php foreach ( $ary['options'] as $k => $option ):
+          if ( isset( $option['group'] ) &&  is_array( $option['group'] ) ):
+            ?>
+            <div class="jobify__api__row">
+              <?php foreach ( $option['group'] as $i => $g ):
+              $value = ! empty( $instance[$g['name']] ) ? $instance[$g['name']] : $g['default']; ?>
+              <div class="jobify__api__half">
+                <label for="<?php echo $this->get_field_id( $g['name'] ); ?>"><?php echo $g['title']; ?></label>
+                <?php if ( isset( $g['type'] ) && $g['type'] === "select" ): ?>
+                <select class="widefat" id="<?php echo $this->get_field_id( $g['name'] ); ?>" name="<?php echo $this->get_field_name( $g['name'] ); ?>">
+                  <?php foreach( $g['options'] as $x => $t ): ?>
+                  <option value="<?php echo $x; ?>"<?php if ( $value === $x ): ?>selected="selected"<?php endif; ?>><?php echo $t; ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <?php elseif (isset( $g['type'] ) && $g['type'] === "number" ): ?>
+                  <input class="widefat" id="<?php echo $this->get_field_id( $g['name'] ); ?>" name="<?php echo $this->get_field_name( $g['name'] ); ?>" type="number" value="<?php echo esc_attr( $value ); ?>">
+                <?php else: ?>
+                  <input class="widefat" id="<?php echo $this->get_field_id( $g['name'] ); ?>" name="<?php echo $this->get_field_name( $g['name'] ); ?>" type="text" value="<?php echo esc_attr( $value ); ?>">
+                <?php endif; ?>
+                <span class="description"><?php echo $g['desc']; ?></span>
+              </div>
+              <?php endforeach; ?>
+            </div>
+            <?php if ( ! empty( $option['desc'] ) ): ?>
+              <p class="description" style="margin-top: .5em;"><?php echo $option['desc']; ?></p>
+            <?php endif; ?>
+        <p>
+            <?
+          else:
+          $value = ! empty( $instance[$option['name']] ) ? $instance[$option['name']] : $option['default'];
+          if ( isset( $option['type'] ) && $option['type'] === "checkbox" ): ?>
+            <label for="<?php echo $this->get_field_id( $option['name'] ); ?>"><?php echo $option['title']; ?></label><br>
+            <?php foreach( $option['options'] as $i => $v ): ?>
+            <label><input type="checkbox" name="<?php echo $this->get_field_name( $option['name'] ); ?>[]" id="<?php echo $this->get_field_id( $option['name'] ); ?>-<?php echo $i; ?>" value="<?php echo $i; ?>"<?php if ( is_array( $value ) && in_array( $i, $value ) ): ?> checked="checked"<?php endif; ?>> <?php echo $v; ?></label>
+            <?php endforeach; ?>
+            <span class="description"><?php echo $option['desc']; ?></span>
+          <?php else: ?>
+          <p>
+          <label for="<?php echo $this->get_field_id( $option['name'] ); ?>"><?php echo $option['title']; ?></label>
+          <input class="widefat" id="<?php echo $this->get_field_id( $option['name'] ); ?>" name="<?php echo $this->get_field_name( $option['name'] ); ?>" type="text" value="<?php echo esc_attr( $value ); ?>">
+          <span class="description"><?php echo $option['desc']; ?></span>
+          </p>
+          <?php
+          endif; endif;
+          endforeach; ?>
+        <?php endif; ?>
+      </div>
+      <?
+    }
+    ?>
     <p>
     <label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit:' ); ?></label>
     <input class="widefat" id="<?php echo $this->get_field_id( 'limit' ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" type="number" value="<?php echo esc_attr( $limit ); ?>">
@@ -117,13 +157,39 @@ class JobsWidget extends \WP_Widget {
    * @return array Updated safe values to be saved.
    */
   public function update( $new_instance, $old_instance ) {
+    global $jobifyAPIs;
+
     $instance = array();
-    $instance['title']    = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
-    $instance['apis']     = ( ! empty( $new_instance['apis'] ) ) ? strip_tags( $new_instance['apis'] ) : '';
-    $instance['keyword']  = ( ! empty( $new_instance['keyword'] ) ) ? strip_tags( $new_instance['keyword'] ) : '';
-    $instance['location'] = ( ! empty( $new_instance['location'] ) ) ? strip_tags( $new_instance['location'] ) : '';
-    $instance['fulltime'] = ( ! empty( $new_instance['fulltime'] ) ) ? strip_tags( $new_instance['fulltime'] ) : '';
-    $instance['limit']    = ( ! empty( $new_instance['limit'] ) ) ? strip_tags( $new_instance['limit'] ) : '';
+
+    $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+    $instance['limit'] = ( ! empty( $new_instance['limit'] ) ) ? strip_tags( $new_instance['limit'] ) : '';
+
+    foreach ( $jobifyAPIs as $key => $ary )
+    {
+      $instance[$ary['name']] = ( ! empty( $new_instance[$ary['name']] ) ) ? strip_tags( $new_instance[$ary['name']] ) : $ary['default'];
+
+      foreach ( $ary['options'] as $k => $option )
+      {
+        if ( isset( $option['group'] ) &&  is_array( $option['group'] ) )
+        {
+          foreach ( $option['group'] as $i => $g )
+          {
+              $instance[$g['name']] = ( ! empty( $new_instance[$g['name']] ) ) ? strip_tags( $new_instance[$g['name']] ) : $g['default'];
+          }
+        }
+        else
+        {
+          if ( isset( $option['type'] ) && $option['type'] === "checkbox" )
+          {
+            $instance[$option['name']] = ( ! empty( $new_instance[$option['name']] ) ) ? $new_instance[$option['name']] : $option['default'];
+          }
+          else
+          {
+            $instance[$option['name']] = ( ! empty( $new_instance[$option['name']] ) ) ? strip_tags( $new_instance[$option['name']] ) : $option['default'];
+          }
+        }
+      }
+    }
 
     return $instance;
   }

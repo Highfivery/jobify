@@ -1,0 +1,30 @@
+.jobify__api__half {
+  display: inline-block;
+  float: left;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.jobify__api__half img {
+  display: block;
+}
+
+.jobify__api__half:first-child {
+  padding-right: 5px;
+}
+
+.jobify__api__half:last-child {
+  padding-left: 5px;
+}
+
+.jobify__api__row {
+  overflow: hidden;
+}
+
+.jobify__api {
+  display: block;
+  margin-bottom: 1em;
+  padding: 20px;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+}
