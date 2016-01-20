@@ -28,3 +28,10 @@
   border: 1px solid #ddd;
   background: #f9f9f9;
 }
+
+.jobify__api__req {
+  font-weight: bold;
+  color: #d54e21;
+}
+
+.jobify__indeed-attribution {}

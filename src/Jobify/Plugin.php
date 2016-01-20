@@ -2,12 +2,8 @@
 class Jobify_Plugin implements ArrayAccess {
   protected $contents;
 
-  public $default_settings =  array();
-
   public function __construct() {
     $this->contents = array();
-
-    $this->load_settings();
   }
 
   /**
@@ -15,7 +11,7 @@ class Jobify_Plugin implements ArrayAccess {
    *
    * Applied to the list of links to display on the plugins page (beside the activate/deactivate links).
    *
-   * @since 2.0.0
+   * @since 1.0.0
    *
    * @link http://codex.wordpress.org/Plugin_API/Filter_Reference/plugin_action_links_(plugin_file_name)
    */
@@ -25,28 +21,12 @@ class Jobify_Plugin implements ArrayAccess {
     return array_merge( $links, $link );
   }
 
-  public function load_settings() {
-    // Retrieve the settings.
-    $settings = jobify_settings();
-    foreach ( $this->default_settings as $key => $val ) {
-      if ( ! isset( $settings[$key] ) ) {
-        if ( is_bool( $val ) ) {
-          $settings[$key] = 0;
-        } else {
-          $settings[$key] = $val;
-        }
-      }
-    }
-
-    $this->settings = $settings;
-  }
-
   /**
    * Plugin meta links.
    *
    * Adds links to the plugins meta.
    *
-   * @since 2.0.0
+   * @since 1.0.0
    *
    * @link http://codex.wordpress.org/Plugin_API/Filter_Reference/preprocess_comment
    */
@@ -91,11 +71,5 @@ class Jobify_Plugin implements ArrayAccess {
     }
 
     add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
-
-    /*if ( is_plugin_active_for_network( plugin_basename( JOBIFY_PLUGIN ) ) ) {
-      add_filter( 'network_admin_plugin_action_links_' . plugin_basename( JOBIFY_PLUGIN ), array( $this, 'plugin_action_links' ) );
-    } else {
-      add_filter( 'plugin_action_links_' . plugin_basename( JOBIFY_PLUGIN ), array( $this, 'plugin_action_links' ) );
-    }*/
   }
 }
