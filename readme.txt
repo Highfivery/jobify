@@ -23,6 +23,7 @@ Supports the following job listing sites:
 Jobify is highly configurable and features:
 
 * Monetize your site with the <a href="https://ads.indeed.com/jobroll" target="_blank">Indeed Publisher Program</a>
+* Shortcodes to add job widgets including the <a href="https://ads.indeed.com/jobroll/createjobroll" target="_blank">Indeed Publisher Program Jobroll</a>.
 * Easy API to add additional job sites
 * Advanced Jobify widget to display jobs
 * Works with <a href="https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Caching" target="_blank">persistent cache plugins</a> like <a href="http://wordpress.org/extend/plugins/w3-total-cache/" target="_blank">W3 Total Cache</a>
@@ -52,6 +53,7 @@ See <a href="https://benmarshall.me/jobify" target="_blank">benmarshall.me/jobif
 * Added <code>jobify_addAPI</code> function to allow themes and plugins to add additional job APIs.
 * Added support for Indeed.
 * Added support for USAJOBS.
+* Enabled Network site support.
 * Updated readme file.
 
 = 1.0.0 =

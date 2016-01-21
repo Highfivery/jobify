@@ -4,9 +4,10 @@ jobify_addAPI( array(
   'logo'    => plugins_url( 'img/indeed.jpg' , JOBIFY_PLUGIN ),
   'name'    => 'indeed',
   'getJobs' => function( $options ) {
-    $jobs   = array();
+    $settings = jobify_settings();
+    $jobs     = array();
 
-    $options['indeed_publisher_number'] = ( ! empty ( $options['indeed_publisher_number'] ) ) ? $options['indeed_publisher_number'] : '9769494768160125';
+    $options['indeed_publisher_number'] = ( ! empty ( $settings['indeed_publisher_number'] ) ) ? $settings['indeed_publisher_number'] : '9769494768160125';
 
     $results = wp_cache_get( 'indeedresults', 'jobify' );
     if ( false === $results )
@@ -32,20 +33,28 @@ jobify_addAPI( array(
       $params['fromage'] = ( ! empty( $options['indeed_fromage'] ) ) ? $options['indeed_fromage'] : '';
 
       $results = $client->search( $params );
-      wp_cache_set( 'indeedresults', $results, 'jobify', 43200 ); // Half a day
-
-      if ( count( $results['results'] ) > 0 ) {
-        foreach ( $results['results'] as $key => $ary ) {
-          $jobs[] = array(
-            'title'    => $ary['jobtitle'],
-            'company'  => $ary['company'],
-            'city'     => $ary['city'],
-            'state'    => $ary['state'],
-            'country'  => $ary['country'],
-            'desc'     => $ary['snippet'],
-            'url'      => $ary['url'],
-            'location' => $ary['formattedLocation']
-          );
+      if ( ! empty( $results['error'] ) )
+      {
+        $jobs[] = array(
+          'error'  => __( '<b>Indeed API Error:</b> ', 'jobify' ) . $results['error']
+        );
+      }
+      else
+      {
+        wp_cache_set( 'indeedresults', $results, 'jobify', 43200 ); // Half a day
+        if ( count( $results['results'] ) > 0 ) {
+          foreach ( $results['results'] as $key => $ary ) {
+            $jobs[] = array(
+              'title'    => $ary['jobtitle'],
+              'company'  => $ary['company'],
+              'city'     => $ary['city'],
+              'state'    => $ary['state'],
+              'country'  => $ary['country'],
+              'desc'     => $ary['snippet'],
+              'url'      => $ary['url'],
+              'location' => $ary['formattedLocation']
+            );
+          }
         }
       }
     }
@@ -56,21 +65,15 @@ jobify_addAPI( array(
   },
   'options' => array(
     array(
-      'title'   => __( 'Publisher number', 'jobify' ),
-      'name'    => 'indeed_publisher_number',
-      'desc'    => __( 'If you do not have a publisher number, you can receive one by heading to the <a href="https://ads.indeed.com/jobroll/xmlfeed" target="_blank">Indeed Publisher Portal</a>.', 'jobify' ),
-      'default' => ''
-    ),
-    array(
       'title'   => __( 'Keyword', 'jobify' ),
       'name'    => 'indeed_keyword',
-      'desc'    => __( 'By default terms are ANDed. To see what is possible, use our <a href="http://www.indeed.com/advanced_search" target="_blank">advanced search page</a> to perform a search and then check the url for the q value.', 'jobify' ),
+      'desc'    => __( 'A search term, such as "ruby" or "java".', 'jobify' ),
       'default' => ''
     ),
     array(
       'title'   => __( 'Location', 'jobify' ),
       'name'    => 'indeed_location',
-      'desc'    => __( 'Use a postal code or a "city, state/province/region" combination.', 'jobify' ),
+      'desc'    => __( 'A city name, zip code, or other location search term.', 'jobify' ),
       'default' => ''
     ),
     array(
@@ -89,7 +92,7 @@ jobify_addAPI( array(
         array(
           'title'   => __( 'Radius', 'jobify' ),
           'name'    => 'indeed_radius',
-          'desc'    => __( 'Distance from search location ("as the crow flies").', 'jobify' ),
+          'desc'    => __( 'Distance from search location.', 'jobify' ),
           'default' => '25',
           'type'    => 'number'
         ),
@@ -112,16 +115,6 @@ jobify_addAPI( array(
           'type'    => 'number'
         ),
       )
-    ),
-    /*array(
-      'title'   => __( 'Full-time', 'jobify' ),
-      'name'    => 'githubjobs_fulltime',
-      'desc'    => __( 'If you want to limit results to full time positions.', 'jobify' ),
-      'type'    => 'checkbox',
-      'options' => array(
-        'yes' => __( 'Yes', 'jobify' )
-      ),
-      'default' => ''
-    ),*/
+    )
   )
 ));

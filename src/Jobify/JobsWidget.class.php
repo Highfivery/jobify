@@ -45,25 +45,32 @@ class JobsWidget extends \WP_Widget {
       $cnt = 0;
       foreach ( $jobs as $key => $ary ) { $cnt++;
         if ( ! empty( $instance['limit'] ) && $cnt > $instance['limit'] ) break;
-        echo '<p><a href="' . $ary['url'] . '" target="_blank">' . $ary['title']. '</a> - ' . $ary['location'] . '</p>';
+        if ( ! empty( $ary['error'] ) )
+        {
+          echo '<p>' . $ary['error'] . '</p>';
+        }
+        else
+        {
+          echo '<p><a href="' . $ary['url'] . '" target="_blank">' . $ary['title']. '</a> - ' . $ary['location'] . '</p>';
+        }
+      }
+
+      if ( $instance['indeed'] )
+      {
+        add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+        ?>
+        <div class="jobify__indeed-attribution">
+          <?php printf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
+    href="%s" title="Job Search"><img
+    src="%s" style="border: 0;
+    vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', 'http://www.indeed.com/p/jobsearch.gif' ); ?>
+        </div>
+        <?php
       }
     }
     else
     {
       echo '<p>' . __( 'No jobs available at this time.', 'jobify' ) . '</p>';
-    }
-
-    if ( $instance['indeed'] )
-    {
-      add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
-      ?>
-      <div class="jobify__indeed-attribution">
-        <?php printf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
-  href="%s" title="Job Search"><img
-  src="%s" style="border: 0;
-  vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', 'http://www.indeed.com/p/jobsearch.gif' ); ?>
-      </div>
-      <?php
     }
 
     if ( $instance['powered_by'] )

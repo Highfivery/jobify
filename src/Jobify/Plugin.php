@@ -2,8 +2,33 @@
 class Jobify_Plugin implements ArrayAccess {
   protected $contents;
 
+  public $settings = array();
+  public $default_settings =  array(
+    'indeed_publisher_number' => '',
+    'usajobs_api_key'         => '',
+    'usajobs_email'           => ''
+  );
+
   public function __construct() {
     $this->contents = array();
+
+    $this->load_settings();
+  }
+
+  public function load_settings() {
+    // Retrieve the settings.
+    $settings = jobify_settings();
+    foreach ( $this->default_settings as $key => $val ) {
+      if ( ! isset( $settings[$key] ) ) {
+        if ( is_bool( $val ) ) {
+          $settings[$key] = 0;
+        } else {
+          $settings[$key] = $val;
+        }
+      }
+    }
+
+    $this->settings = $settings;
   }
 
   /**
@@ -71,5 +96,11 @@ class Jobify_Plugin implements ArrayAccess {
     }
 
     add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
+
+    if ( is_plugin_active_for_network( plugin_basename( JOBIFY_PLUGIN ) ) ) {
+      add_filter( 'network_admin_plugin_action_links_' . plugin_basename( JOBIFY_PLUGIN ), array( $this, 'plugin_action_links' ) );
+    } else {
+      add_filter( 'plugin_action_links_' . plugin_basename( JOBIFY_PLUGIN ), array( $this, 'plugin_action_links' ) );
+    }
   }
 }

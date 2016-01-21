@@ -5,13 +5,13 @@
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 function jobify_settings() {
-  /*if ( is_plugin_active_for_network( plugin_basename( JOBIFY_PLUGIN ) ) ) {
+  if ( is_plugin_active_for_network( plugin_basename( JOBIFY_PLUGIN ) ) ) {
     // Network plugin settings.
-    return (array) get_site_option( 'jobify_general_settings' );
+    return (array) get_site_option( 'jobify_settings' );
   }
 
   // Site plugin settings.
-  return (array) get_option( 'jobify_general_settings' );*/
+  return (array) get_option( 'jobify_settings' );
 }
 
 function jobify_addAPI( $args )

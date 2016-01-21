@@ -45,6 +45,11 @@ if( ! defined( 'JOBIFY_PLUGIN ' ) ) {
 $jobifyAPIs = array();
 
 /**
+ * Used to detect installed plugins.
+ */
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+/**
  * Include the plugin helpers.
  */
 require_once JOBIFY_ROOT . 'src' . DIRECTORY_SEPARATOR . 'helpers.php';
@@ -73,8 +78,10 @@ function jobify_githubjobs_api()
   global $jobifyAPIs;
 
   // Load the plugin features.
-  $plugin            = new Jobify_Plugin();
-  $plugin['widgets'] = new Jobify_Widgets();
+  $plugin               = new Jobify_Plugin();
+  $plugin['widgets']    = new Jobify_Widgets();
+  $plugin['shortcodes'] = new Jobify_Shortcodes();
+  $plugin['admin']      = new Jobify_Admin();
 
   // Initialize the plugin.
   $plugin->run();
