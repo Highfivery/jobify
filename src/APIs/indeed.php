@@ -25,8 +25,8 @@ jobify_addAPI( array(
         //'co'      => 'us'
       );
 
-      $params['q']       = ( ! empty( $options['indeed_keyword'] ) ) ? $options['indeed_keyword'] : '';
-      $params['l']       = ( ! empty( $options['indeed_location'] ) ) ? $options['indeed_location'] : '';
+      $params['q']       = ( ! empty( $options['keyword'] ) ) ? $options['keyword'] : '';
+      $params['l']       = ( ! empty( $options['location'] ) ) ? $options['location'] : '';
       $params['radius']  = ( ! empty( $options['indeed_radius'] ) ) ? $options['indeed_radius'] : '25';
       $params['sort']    = ( ! empty( $options['indeed_sort'] ) ) ? $options['indeed_sort'] : 'relevance';
       $params['limit']   = ( ! empty( $options['indeed_limit'] ) ) ? $options['indeed_limit'] : 10;
@@ -51,7 +51,7 @@ jobify_addAPI( array(
               'state'    => $ary['state'],
               'country'  => $ary['country'],
               'desc'     => $ary['snippet'],
-              'url'      => $ary['url'],
+              'app_url'  => $ary['url'],
               'location' => $ary['formattedLocation']
             );
           }
@@ -65,46 +65,12 @@ jobify_addAPI( array(
   },
   'options' => array(
     array(
-      'title'   => __( 'Keyword', 'jobify' ),
-      'name'    => 'indeed_keyword',
-      'desc'    => __( 'A search term, such as "ruby" or "java".', 'jobify' ),
-      'default' => ''
-    ),
-    array(
-      'title'   => __( 'Location', 'jobify' ),
-      'name'    => 'indeed_location',
-      'desc'    => __( 'A city name, zip code, or other location search term.', 'jobify' ),
-      'default' => ''
-    ),
-    array(
       'group' => array(
-        array(
-          'title'   => __( 'Sort', 'jobify' ),
-          'name'    => 'indeed_sort',
-          'desc'    => __( 'Sort by relevance or date.', 'jobify' ),
-          'default' => 'relevance',
-          'type'    => 'select',
-          'options' => array(
-            'relevance' => __( 'Relevance', 'jobify' ),
-            'date'      => __( 'Date', 'jobify' )
-          )
-        ),
         array(
           'title'   => __( 'Radius', 'jobify' ),
           'name'    => 'indeed_radius',
           'desc'    => __( 'Distance from search location.', 'jobify' ),
           'default' => '25',
-          'type'    => 'number'
-        ),
-      )
-    ),
-    array(
-      'group' => array(
-        array(
-          'title'   => __( 'Limit', 'jobify' ),
-          'name'    => 'indeed_limit',
-          'desc'    => __( 'Max number of results from Indeed (Max. 25).', 'jobify' ),
-          'default' => '10',
           'type'    => 'number'
         ),
         array(
@@ -115,6 +81,13 @@ jobify_addAPI( array(
           'type'    => 'number'
         ),
       )
-    )
+    ),
+    array(
+      'title'   => __( 'Limit', 'jobify' ),
+      'name'    => 'indeed_limit',
+      'desc'    => __( 'Max number of results from Indeed (Max. 25).', 'jobify' ),
+      'default' => '10',
+      'type'    => 'number'
+    ),
   )
 ));

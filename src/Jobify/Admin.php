@@ -64,16 +64,45 @@ class Jobify_Admin extends Jobify_Plugin {
    *
    * @link http://codex.wordpress.org/Plugin_API/Action_Reference/admin_init
    */
-  public function admin_init() {
+  public function admin_init()
+  {
     register_setting( 'jobify_settings', 'jobify_settings' );
 
+    add_settings_section( 'section_general', __( 'General Settings', 'jobify' ), false, 'jobify_settings' );
     add_settings_section( 'section_indeed', __( 'Indeed Settings', 'jobify' ), false, 'jobify_settings' );
     add_settings_section( 'section_usajobs', __( 'USAJOBS Settings', 'jobify' ), false, 'jobify_settings' );
+
+    add_settings_field( 'job_post_type', __( 'Disable Job post type', 'jobify' ), array( $this, 'field_job_post_type' ), 'jobify_settings', 'section_general' );
+
+    if ( ! $this->settings['job_post_type'] )
+    {
+      add_settings_field( 'job_post_slug', __( 'Job post type slug', 'jobify' ), array( $this, 'field_job_post_slug' ), 'jobify_settings', 'section_general' );
+    }
 
     add_settings_field( 'indeed_publisher_number', __( 'Publisher number', 'jobify' ), array( $this, 'field_indeed_publisher_number' ), 'jobify_settings', 'section_indeed' );
 
     add_settings_field( 'usajobs_api_key', __( 'API key', 'jobify' ), array( $this, 'field_usajobs_api_key' ), 'jobify_settings', 'section_usajobs' );
     add_settings_field( 'usajobs_email', __( 'Email address', 'jobify' ), array( $this, 'field_usajobs_email' ), 'jobify_settings', 'section_usajobs' );
+  }
+
+  public function field_job_post_type()
+  {
+    ?>
+    <label>
+      <input type="checkbox" name="jobify_settings[job_post_type]" value="1"<?php if ( 1 == $this->settings['job_post_type'] ): ?>checked="checked"<?php endif; ?>>
+      <p class="description"><?php _e( 'Disables the creation of job postings on the site.' ); ?></p>
+    </label>
+    <?php
+  }
+
+  public function field_job_post_slug()
+  {
+    ?>
+    <label>
+      <input type="text" class="regular-text" name="jobify_settings[job_post_slug]" value="<?php echo esc_attr( $this->settings['job_post_slug'] ); ?>">
+      <p class="description"><?php printf( __( 'Enter the job post type slug. After updating, re-save the <a href="%s">site permalink settings</a>.', 'jobify' ), admin_url( 'options-permalink.php' ) ); ?></p>
+    </label>
+    <?php
   }
 
   public function field_indeed_publisher_number() {

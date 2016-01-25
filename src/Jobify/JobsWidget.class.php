@@ -23,15 +23,15 @@ class JobsWidget extends \WP_Widget {
   public function widget( $args, $instance ) {
     global $jobifyAPIs;
 
-    $jobs = array();
+    $jobs    = jobify_get_jobs( $instance );
+    $jobAPIs = false;
+    $rand    = time();
 
-    foreach ( $jobifyAPIs as $key => $ary )
-    {
-      $enabled = ! empty( $instance[$ary['name']] ) ? $instance[$ary['name']] : FALSE;
-
-      if ( $enabled )
+    foreach ( $jobifyAPIs as $key => $ary ) {
+      if ( ! empty( $instance[ $ary['name'] ] ) && $instance[ $ary['name'] ] == 1 )
       {
-        $jobs = array_merge( $jobs, $ary['getJobs']( $instance ) );
+        if ( $jobAPIs ) $jobAPIs .= '|';
+        $jobAPIs .= $ary['name'];
       }
     }
 
@@ -43,6 +43,14 @@ class JobsWidget extends \WP_Widget {
     if ( count( $jobs ) > 0 ) {
       shuffle( $jobs );
       $cnt = 0;
+      echo '<div class="jobifyJobs"
+        data-location="' . esc_attr( $instance['location'] ) . '"
+        data-geolocation="' . $instance['geolocation'] . '"
+        data-template="jobify-' . $rand . '"
+        data-keyword="' . $instance['keyword'] . '"
+        data-apis="' . $jobAPIs . '"
+        data-limit="' . $instance['limit'] . '"
+      >';
       foreach ( $jobs as $key => $ary ) { $cnt++;
         if ( ! empty( $instance['limit'] ) && $cnt > $instance['limit'] ) break;
         if ( ! empty( $ary['error'] ) )
@@ -51,13 +59,21 @@ class JobsWidget extends \WP_Widget {
         }
         else
         {
-          echo '<p><a href="' . $ary['url'] . '" target="_blank">' . $ary['title']. '</a> - ' . $ary['location'] . '</p>';
+          echo jobify_parse( $instance['template'], $ary );
         }
       }
+      echo '</div>';
+
+      if ( $instance['geolocation'] )
+      {
+        wp_enqueue_script( 'jobify-ajax' );
+        echo '<div id="jobify-' . $rand . '" style="display: none !important;">' . $instance['template'] . '</div>';
+      }
+
 
       if ( $instance['indeed'] )
       {
-        add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+        wp_enqueue_script( 'jobify-indeed' );
         ?>
         <div class="jobify__indeed-attribution">
           <?php printf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
@@ -85,11 +101,6 @@ class JobsWidget extends \WP_Widget {
     echo $args['after_widget'];
   }
 
-  public function wp_enqueue_scripts()
-  {
-    wp_enqueue_script( 'jobify-indeed', 'https://gdc.indeed.com/ads/apiresults.js', array(), false, false );
-  }
-
   public function powered_by()
   {
     $strings = array(
@@ -98,7 +109,8 @@ class JobsWidget extends \WP_Widget {
       sprintf( __( 'Jobs aggregated by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
       sprintf( __( 'Jobs by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
       sprintf( __( 'Aggregated by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Aggregated by <a href="%s" target="_blank">WordPress Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' )
+      sprintf( __( 'Aggregated by <a href="%s" target="_blank">WordPress Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
+      sprintf( __( '<a href="%s" target="_blank">WordPress job plugin</a> by Jobify.', 'jobify' ), 'http://benmarshall.me/jobify' )
     );
 
     echo $strings[rand(0, (count( $strings ) - 1))];
@@ -114,14 +126,50 @@ class JobsWidget extends \WP_Widget {
   public function form( $instance ) {
     global $jobifyAPIs;
 
-    $title      = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Latest Jobs', 'jobify' );
-    $limit      = ! empty( $instance['limit'] ) ? $instance['limit'] : '';
-    $powered_by = isset( $instance['powered_by'] ) ? $instance['powered_by'] : 1;
+    $default_tpl = '<p><a href="[app_url]" target="_blank">[title]</a> ([company]) - [location]</p>';
+
+    $title       = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Latest Jobs', 'jobify' );
+    $template    = ! empty( $instance['template'] ) ? $instance['template'] : $default_tpl;
+    $limit       = ! empty( $instance['limit'] ) ? $instance['limit'] : 5;
+    $location    = ! empty( $instance['location'] ) ? $instance['location'] : '';
+    $geolocation = isset( $instance['geolocation'] ) ? $instance['geolocation'] : 1;
+    $keyword     = ! empty( $instance['keyword'] ) ? $instance['keyword'] : '';
+    $powered_by  = isset( $instance['powered_by'] ) ? $instance['powered_by'] : 1;
     ?>
     <p>
     <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
     <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
     </p>
+    <p>
+    <label for="<?php echo $this->get_field_id( 'keyword' ); ?>"><?php _e( 'Keyword:' ); ?></label>
+    <input class="widefat" id="<?php echo $this->get_field_id( 'keyword' ); ?>" name="<?php echo $this->get_field_name( 'keyword' ); ?>" type="text" value="<?php echo esc_attr( $keyword ); ?>">
+    <span class="description"><?php _e( 'A search term, such as "ruby" or "java".', 'jobify' ); ?></span>
+    </p>
+    <p>
+    <label for="<?php echo $this->get_field_id( 'location' ); ?>"><?php _e( 'Location:' ); ?></label>
+    <input class="widefat" id="<?php echo $this->get_field_id( 'location' ); ?>" name="<?php echo $this->get_field_name( 'location' ); ?>" type="text" value="<?php echo esc_attr( $location ); ?>">
+    <span class="description"><?php _e( 'A city name, zip code, or other location search term.', 'jobify' ); ?></span>
+    </p>
+    <p>
+    <label for="<?php echo $this->get_field_id( 'geolocation' ); ?>"><input id="<?php echo $this->get_field_id( 'geolocation' ); ?>" name="<?php echo $this->get_field_name( 'geolocation' ); ?>" type="checkbox"<?php if ( $geolocation ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable geolocation' ); ?></label>
+    </p>
+    <p>
+    <label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit:' ); ?></label>
+    <input class="widefat" id="<?php echo $this->get_field_id( 'limit' ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" type="number" value="<?php echo esc_attr( $limit ); ?>">
+    </p>
+    <p>
+    <label for="<?php echo $this->get_field_id( 'template' ); ?>"><?php _e( 'Job Template:' ); ?></label>
+    <textarea rows="5" class="large-text code" id="<?php echo $this->get_field_id( 'template' ); ?>" name="<?php echo $this->get_field_name( 'template' ); ?>" type="text"><?php echo $template; ?></textarea>
+    </p>
+    <h4><?php _e( 'Available template shortcodes' ); ?>:</h4>
+    <ul>
+      <li><code>[app_url]</code> - <?php _e( 'Job application URL' ); ?>
+      <li><code>[title]</code> - <?php _e( 'Job title' ); ?>
+      <li><code>[company]</code> - <?php _e( 'Company' ); ?>
+      <li><code>[location]</code> - <?php _e( 'Job location' ); ?>
+    </ul>
+
+    <h4><?php _e( 'Available APIs:' ); ?></h4>
     <?
 
     foreach ( $jobifyAPIs as $key => $ary )
@@ -181,17 +229,14 @@ class JobsWidget extends \WP_Widget {
           <span class="description"><?php echo $option['desc']; ?></span>
           </p>
           <?php
-          endif; endif;
-          endforeach; ?>
+          endif; endif; ?>
+          <?php if ( ! empty( $ary['desc'] ) ) { echo '<p class="description" style="margin: 1em 0 0 0">'. $ary['desc'] . '</p>'; } ?>
+          <?php endforeach; ?>
         <?php endif; ?>
       </div>
       <?
     }
     ?>
-    <p>
-    <label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit:' ); ?></label>
-    <input class="widefat" id="<?php echo $this->get_field_id( 'limit' ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" type="number" value="<?php echo esc_attr( $limit ); ?>">
-    </p>
     <p>
     <label for="<?php echo $this->get_field_id( 'powered_by' ); ?>"><input id="<?php echo $this->get_field_id( 'powered_by' ); ?>" name="<?php echo $this->get_field_name( 'powered_by' ); ?>" type="checkbox"<?php if ( $powered_by ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Show powered by Jobify link' ); ?></label>
     </p>
@@ -213,9 +258,13 @@ class JobsWidget extends \WP_Widget {
 
     $instance = array();
 
-    $instance['title']      = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
-    $instance['limit']      = ( ! empty( $new_instance['limit'] ) ) ? strip_tags( $new_instance['limit'] ) : '';
-    $instance['powered_by'] = ( ! empty( $new_instance['powered_by'] ) ) ? strip_tags( $new_instance['powered_by'] ) : '';
+    $instance['title']       = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+    $instance['template']    = ( ! empty( $new_instance['template'] ) ) ? $new_instance['template'] : '';
+    $instance['limit']       = ( ! empty( $new_instance['limit'] ) ) ? strip_tags( $new_instance['limit'] ) : '';
+    $instance['location']    = ( ! empty( $new_instance['location'] ) ) ? strip_tags( $new_instance['location'] ) : '';
+    $instance['keyword']     = ( ! empty( $new_instance['keyword'] ) ) ? strip_tags( $new_instance['keyword'] ) : '';
+    $instance['geolocation'] = ( ! empty( $new_instance['geolocation'] ) ) ? strip_tags( $new_instance['geolocation'] ) : '';
+    $instance['powered_by']  = ( ! empty( $new_instance['powered_by'] ) ) ? strip_tags( $new_instance['powered_by'] ) : '';
 
     foreach ( $jobifyAPIs as $key => $ary )
     {

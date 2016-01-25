@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Jobify
  * Plugin URI: https://benmarshall.me/jobify
- * Description: Easily integrate job listings from all the major job posting sites like GitHub and Indeed.
- * Version: 1.0.0
+ * Description: Jobify allows easy site integration of job postings from all of the major sites like GitHub, Indeed &amp; USAJOBS.
+ * Version: 1.1.0
  * Author: Ben Marshall
  * Text Domain: jobify
  * Domain Path: /languages
@@ -45,6 +45,11 @@ if( ! defined( 'JOBIFY_PLUGIN ' ) ) {
 $jobifyAPIs = array();
 
 /**
+ * Include the TGM_Plugin_Activation class.
+ */
+require_once JOBIFY_ROOT . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'class-tgm-plugin-activation.php';
+
+/**
  * Used to detect installed plugins.
  */
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -78,10 +83,18 @@ function jobify_githubjobs_api()
   global $jobifyAPIs;
 
   // Load the plugin features.
-  $plugin               = new Jobify_Plugin();
-  $plugin['widgets']    = new Jobify_Widgets();
-  $plugin['shortcodes'] = new Jobify_Shortcodes();
-  $plugin['admin']      = new Jobify_Admin();
+  $plugin                  = new Jobify_Plugin();
+  $plugin['scripts']       = new Jobify_Scripts();
+  $plugin['custom_fields'] = new Jobify_CustomFields();
+  $plugin['widgets']       = new Jobify_Widgets();
+  $plugin['shortcodes']    = new Jobify_Shortcodes();
+  $plugin['admin']         = new Jobify_Admin();
+
+  if ( ! $plugin->settings['job_post_type'] )
+  {
+    require_once JOBIFY_ROOT . 'src' . DIRECTORY_SEPARATOR . 'APIs' . DIRECTORY_SEPARATOR . 'jobify.php';
+    $plugin['job_post_type'] = new Jobify_JobPostType();
+  }
 
   // Initialize the plugin.
   $plugin->run();

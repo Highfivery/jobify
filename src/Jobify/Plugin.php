@@ -4,9 +4,11 @@ class Jobify_Plugin implements ArrayAccess {
 
   public $settings = array();
   public $default_settings =  array(
+    'job_post_type'           => '',
     'indeed_publisher_number' => '',
     'usajobs_api_key'         => '',
-    'usajobs_email'           => ''
+    'usajobs_email'           => '',
+    'job_post_slug'           => 'job'
   );
 
   public function __construct() {
