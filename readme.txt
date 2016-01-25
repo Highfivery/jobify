@@ -24,8 +24,10 @@ Jobify is highly configurable and features:
 
 * Monetize your site with the <a href="https://ads.indeed.com/jobroll" target="_blank">Indeed Publisher Program</a>
 * Shortcodes to add job widgets including the Indeed Jobroll &amp; search box
-* Easy API to add additional job sites
+* Geolocation support
+* Easy API to add additional job APIs
 * Advanced Jobify widget to display jobs
+* Optional job post type allows hosted job postings
 * Works with <a href="https://codex.wordpress.org/Class_Reference/WP_Object_Cache#Persistent_Caching" target="_blank">persistent cache plugins</a> like <a href="http://wordpress.org/extend/plugins/w3-total-cache/" target="_blank">W3 Total Cache</a>
 
 For more information and developer usage, see <a href="https://benmarshall.me/jobify" target="_blank">benmarshall.me/jobify</a>.
