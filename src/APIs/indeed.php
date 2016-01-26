@@ -1,18 +1,30 @@
 <?php
+/**
+ * Include the Indeed PHP API
+ */
+require_once JOBIFY_ROOT . 'src' . DIRECTORY_SEPARATOR . 'indeed.php';
+
 jobify_addAPI( array(
-  'title'   => __( 'Indeed', 'jobify' ),
-  'logo'    => plugins_url( 'img/indeed.jpg' , JOBIFY_PLUGIN ),
-  'name'    => 'indeed',
-  'getJobs' => function( $options ) {
+  'key'         => 'indeed',
+  'title'       => __( 'Indeed', 'jobify' ),
+  'logo'        => plugins_url( 'img/indeed.jpg' , JOBIFY_PLUGIN ),
+  'getJobs'     => function( $args )
+  {
+    // Create the returned jobs array
+    $jobs = array();
+
+    // Get Jobify settings
     $settings = jobify_settings();
-    $jobs     = array();
 
-    $options['indeed_publisher_number'] = ( ! empty ( $settings['indeed_publisher_number'] ) ) ? $settings['indeed_publisher_number'] : '9769494768160125';
+    // Set the Indeed publisher number
+    $indeed_publisher_number = ( ! empty ( $args['indeed_publisher_number'] ) ) ? $args['indeed_publisher_number'] : '9769494768160125';
 
-    $results = wp_cache_get( 'indeedresults', 'jobify' );
+    // Check cache for results
+    $results = wp_cache_get( 'jobs-indeed-' . jobify_string( $args ), 'jobify' );
     if ( false === $results )
     {
-      $client = new Indeed( $options['indeed_publisher_number'] );
+      // Query the Indeed PHP API
+      $client = new Indeed( $indeed_publisher_number );
       $params   = array(
         'userip'    => jobify_get_ip(),
         'useragent' => $_SERVER['HTTP_USER_AGENT'],
@@ -25,25 +37,28 @@ jobify_addAPI( array(
         //'co'      => 'us'
       );
 
-      $params['q']       = ( ! empty( $options['keyword'] ) ) ? $options['keyword'] : '';
-      $params['l']       = ( ! empty( $options['location'] ) ) ? $options['location'] : '';
-      $params['radius']  = ( ! empty( $options['indeed_radius'] ) ) ? $options['indeed_radius'] : '25';
-      $params['sort']    = ( ! empty( $options['indeed_sort'] ) ) ? $options['indeed_sort'] : 'relevance';
-      $params['limit']   = ( ! empty( $options['indeed_limit'] ) ) ? $options['indeed_limit'] : 10;
-      $params['fromage'] = ( ! empty( $options['indeed_fromage'] ) ) ? $options['indeed_fromage'] : '';
+      $params['q']       = ( ! empty( $args['keyword'] ) ) ? $args['keyword'] : '';
+      $params['l']       = ( ! empty( $args['location'] ) ) ? $args['location'] : false;
+      $params['radius']  = ( ! empty( $args['indeed_radius'] ) ) ? $args['indeed_radius'] : '25';
+      $params['sort']    = ( ! empty( $args['indeed_sort'] ) ) ? $args['indeed_sort'] : 'relevance';
+      $params['limit']   = ( ! empty( $args['indeed_limit'] ) ) ? $args['indeed_limit'] : 10;
+      $params['fromage'] = ( ! empty( $args['indeed_fromage'] ) ) ? $args['indeed_fromage'] : '';
 
       $results = $client->search( $params );
       if ( ! empty( $results['error'] ) )
       {
+        // API error
         $jobs[] = array(
           'error'  => __( '<b>Indeed API Error:</b> ', 'jobify' ) . $results['error']
         );
       }
       else
       {
-        wp_cache_set( 'indeedresults', $results, 'jobify', 43200 ); // Half a day
+        // Save results to cache
+        wp_cache_set( 'jobs-indeed-' . jobify_string( $args ), $results, 'jobify', 43200 ); // Half a day
         if ( count( $results['results'] ) > 0 ) {
           foreach ( $results['results'] as $key => $ary ) {
+            // Add job to array
             $jobs[] = array(
               'title'    => $ary['jobtitle'],
               'company'  => $ary['company'],
@@ -58,8 +73,6 @@ jobify_addAPI( array(
         }
       }
     }
-
-    //print_r($results);
 
     return $jobs;
   },

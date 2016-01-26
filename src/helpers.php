@@ -18,7 +18,7 @@ function jobify_addAPI( $args )
 {
   global $jobifyAPIs;
 
-  $jobifyAPIs[] = $args;
+  $jobifyAPIs[ $args['key'] ] = $args;
 }
 
 
@@ -144,21 +144,69 @@ if ( ! function_exists( 'jobify_get_location' ) )
 
 if ( ! function_exists( 'jobify_get_jobs' ) )
 {
-  function jobify_get_jobs( $instance )
+  function jobify_get_jobs( $args )
   {
+    // Get the available job portal APIs
     global $jobifyAPIs;
+
+    // Create the returned jobs array
     $jobs = array();
 
-    foreach ( $jobifyAPIs as $key => $ary )
+    // Loop through the requested job portals
+    $portals = ( ! empty ( $args['portals'] ) ) ? $args['portals'] : array();
+    if ( count( $portals ) > 0 )
     {
-      $enabled = ! empty( $instance[$ary['name']] ) ? $instance[$ary['name']] : FALSE;
-
-      if ( $enabled )
+      foreach( $portals as $key => $portal )
       {
-        $jobs = array_merge( $jobs, $ary['getJobs']( $instance ) );
+        if ( array_key_exists( $portal, $jobifyAPIs ) )
+        {
+          // If portal exists, run the 'getJobs()' method
+          unset( $args['portals'] );
+          $jobs = array_merge( $jobs, $jobifyAPIs[$portal]['getJobs']( $args ) );
+        }
       }
     }
 
     return $jobs;
+  }
+}
+
+if ( ! function_exists( 'jobify_string' ) )
+{
+  function jobify_string( $ary )
+  {
+    $string = '';
+
+    foreach( $ary as $key => $value )
+    {
+      if ( is_array( $value ) ) continue;
+
+      $string .= strip_tags(trim(strtolower(str_replace(array(
+        ' '
+      ),
+      array(
+        '__'
+      ), $value))));
+    }
+
+    return $string;
+  }
+}
+
+if ( ! function_exists( 'jobify_powered_by' ) )
+{
+  function jobify_powered_by()
+  {
+    $strings = array(
+      sprintf( __( 'Powered by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
+      sprintf( __( 'Powered by <a href="%s" target="_blank">WordPress Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
+      sprintf( __( 'Jobs aggregated by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
+      sprintf( __( 'Jobs by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
+      sprintf( __( 'Aggregated by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
+      sprintf( __( 'Aggregated by <a href="%s" target="_blank">WordPress Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
+      sprintf( __( '<a href="%s" target="_blank">WordPress job plugin</a> by Jobify.', 'jobify' ), 'http://benmarshall.me/jobify' )
+    );
+
+    echo $strings[rand(0, (count( $strings ) - 1))];
   }
 }

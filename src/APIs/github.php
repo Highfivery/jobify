@@ -1,39 +1,39 @@
 <?php
 jobify_addAPI( array(
+  'key'    => 'github_jobs',
   'title'   => __( 'GitHub Jobs', 'jobify' ),
   'logo'    => plugins_url( 'img/github-jobs.jpg' , JOBIFY_PLUGIN ),
-  'name'    => 'githubjobs',
   //'desc'    => __( 'A keyword is required to search on GitHub Jobs.', 'jobify' ),
-  'getJobs' => function( $options ) {
+  'getJobs' => function( $args ) {
     $jobs = array();
 
-    $results = wp_cache_get( 'githubjobresults', 'jobify' );
+    $results = wp_cache_get( 'jobs-github-jobs-' . jobify_string( $args ), 'jobify' );
     if ( false === $results )
     {
       $link = 'https://jobs.github.com/positions.json?';
 
-      if ( ! empty( $options['keyword'] ) ) {
-        $link .= 'description=' . urlencode( $options['keyword'] ) . '&';
+      if ( ! empty( $args['keyword'] ) ) {
+        $link .= 'description=' . urlencode( $args['keyword'] ) . '&';
       }
 
-      if ( ! empty( $options['location'] ) ) {
-        $link .= 'location=' . urlencode( $options['location'] ) . '&';
+      if ( ! empty( $args['location'] ) ) {
+        $link .= 'location=' . urlencode( $args['location'] ) . '&';
       }
 
-      if ( ! empty( $options['githubjobs_fulltime'] ) ) {
-        $link .= 'full_time=' . urlencode( $options['githubjobs_fulltime'] );
+      if ( ! empty( $args['githubjobs_fulltime'] ) ) {
+        $link .= 'full_time=' . urlencode( $args['githubjobs_fulltime'] );
       }
 
-      /*if ( ! empty( $options['lat'] ) ) {
-        $link .= 'lat=' . urlencode( $options['lat'] );
+      /*if ( ! empty( $args['lat'] ) ) {
+        $link .= 'lat=' . urlencode( $args['lat'] );
       }
 
-      if ( ! empty( $options['lng'] ) ) {
-        $link .= 'long=' . urlencode( $options['lng'] );
+      if ( ! empty( $args['lng'] ) ) {
+        $link .= 'long=' . urlencode( $args['lng'] );
       }*/
 
       $results = json_decode( file_get_contents( $link ) );
-      wp_cache_set( 'githubjobresults', $results, 'jobify', 43200 ); // Half a day
+      wp_cache_set( 'jobs-github-jobs-' . jobify_string( $args ), $results, 'jobify', 43200 ); // Half a day
     }
 
     if ( count( $results ) > 0 )

@@ -1,13 +1,13 @@
 <?php
 jobify_addAPI( array(
+  'key'     => 'jobify',
   'title'   => __( 'Jobify', 'jobify' ),
   'logo'    => plugins_url( 'img/jobify.jpg' , JOBIFY_PLUGIN ),
-  'name'    => 'jobify',
   'getJobs' => function( $options ) {
     $settings = jobify_settings();
     $jobs     = array();
 
-    $results = wp_cache_get( 'jobifyresults', 'jobify' );
+    $results = wp_cache_get( 'jobs-jobify', 'jobify' );
     if ( false === $results )
     {
       $args = array(
@@ -35,7 +35,10 @@ jobify_addAPI( array(
         );
       }
       wp_reset_postdata();
+
+      wp_cache_set( 'jobs-jobify', $results, 'jobify', 43200 ); // Half a day
     }
+
 
     return $jobs;
   },

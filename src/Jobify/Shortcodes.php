@@ -4,10 +4,51 @@ class Jobify_Shortcodes {
   {
     add_action( 'init', function()
     {
+      add_shortcode( 'jobify', array( $this, 'jobify' ) );
       add_shortcode( 'indeed-jobroll', array( $this, 'indeed_jobroll' ) );
       add_shortcode( 'indeed-job-search', array( $this, 'indeed_job_search' ) );
     });
   }
+
+  public function jobify( $atts, $content = null )
+  {
+    $args = array(
+      'keyword'     => ( ! empty( $atts['keyword'] ) ) ? $atts['keyword'] : false,
+      'location'    => ( ! empty( $atts['location'] ) ) ? $atts['location'] : false,
+      'geolocation' => ( ! empty( $atts['geolocation'] ) ) ? $atts['geolocation'] : false,
+      'powered_by'  => ( ! empty( $atts['powered_by'] ) ) ? $atts['powered_by'] : true,
+      'powered_by'  => ( ! empty( $atts['powered_by'] ) ) ? $atts['powered_by'] : true,
+      'portals'     => ( ! empty( $atts['portals'] ) ) ? explode( "|", $atts['portals'] ) : array(),
+    );
+    $jobs = jobify_get_jobs( $args );
+
+    ob_start();
+    if ( count( $jobs ) > 0 )
+    {
+      foreach( $jobs as $key => $ary )
+      {
+        echo jobify_parse( html_entity_decode( $content ), $ary );
+      }
+
+      if ( in_array( 'indeed', $args['portals'] ) )
+      {
+        echo  '<div class="jobify__indeed-attribution">' . sprintf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
+    href="%s" title="Job Search"><img
+    src="%s" style="border: 0;
+    vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', 'http://www.indeed.com/p/jobsearch.gif' ) . '</div>';
+      }
+
+      if ( $args['powered_by'] )
+      { ?>
+      <div class="jobify__powered-by">
+        <?php jobify_powered_by(); ?>
+      </div>
+      <?php }
+    }
+    return ob_get_clean();
+  }
+
+
 
   public function indeed_job_search( $atts )
   {

@@ -23,17 +23,16 @@ class JobsWidget extends \WP_Widget {
   public function widget( $args, $instance ) {
     global $jobifyAPIs;
 
-    $jobs    = jobify_get_jobs( $instance );
-    $jobAPIs = false;
-    $rand    = time();
+    $jobArgs = array(
+      'keyword'     => ( ! empty( $instance['keyword'] ) ) ? $instance['keyword'] : false,
+      'location'    => ( ! empty( $instance['location'] ) ) ? $instance['location'] : false,
+      'geolocation' => ( ! empty( $instance['geolocation'] ) ) ? $instance['geolocation'] : false,
+      'powered_by'  => ( ! empty( $instance['powered_by'] ) ) ? $instance['powered_by'] : true,
+      'portals'     => ( ! empty( $instance['portals'] ) ) ?  $instance['portals'] : array(),
+    );
+    $jobs = jobify_get_jobs( $jobArgs );
 
-    foreach ( $jobifyAPIs as $key => $ary ) {
-      if ( ! empty( $instance[ $ary['name'] ] ) && $instance[ $ary['name'] ] == 1 )
-      {
-        if ( $jobAPIs ) $jobAPIs .= '|';
-        $jobAPIs .= $ary['name'];
-      }
-    }
+    $rand    = time();
 
     echo $args['before_widget'];
     if ( ! empty( $instance['title'] ) ) {
@@ -44,11 +43,11 @@ class JobsWidget extends \WP_Widget {
       shuffle( $jobs );
       $cnt = 0;
       echo '<div class="jobifyJobs"
-        data-location="' . esc_attr( $instance['location'] ) . '"
-        data-geolocation="' . $instance['geolocation'] . '"
+        data-location="' . esc_attr( $jobArgs['location'] ) . '"
+        data-geolocation="' . $jobArgs['geolocation'] . '"
         data-template="jobify-' . $rand . '"
-        data-keyword="' . $instance['keyword'] . '"
-        data-apis="' . $jobAPIs . '"
+        data-keyword="' . $jobArgs['keyword'] . '"
+        data-apis="' . implode( '|', $jobArgs['portals'] ) . '"
         data-limit="' . $instance['limit'] . '"
       >';
       foreach ( $jobs as $key => $ary ) { $cnt++;
@@ -70,8 +69,7 @@ class JobsWidget extends \WP_Widget {
         echo '<div id="jobify-' . $rand . '" style="display: none !important;">' . $instance['template'] . '</div>';
       }
 
-
-      if ( $instance['indeed'] )
+      if ( in_array( 'indeed', $jobArgs['portals'] ) )
       {
         wp_enqueue_script( 'jobify-indeed' );
         ?>
@@ -93,27 +91,12 @@ class JobsWidget extends \WP_Widget {
     {
       ?>
       <div class="jobify__powered-by">
-        <?php $this->powered_by(); ?>
+        <?php jobify_powered_by(); ?>
       </div>
       <?php
     }
 
     echo $args['after_widget'];
-  }
-
-  public function powered_by()
-  {
-    $strings = array(
-      sprintf( __( 'Powered by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Powered by <a href="%s" target="_blank">WordPress Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Jobs aggregated by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Jobs by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Aggregated by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Aggregated by <a href="%s" target="_blank">WordPress Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( '<a href="%s" target="_blank">WordPress job plugin</a> by Jobify.', 'jobify' ), 'http://benmarshall.me/jobify' )
-    );
-
-    echo $strings[rand(0, (count( $strings ) - 1))];
   }
 
   /**
@@ -135,6 +118,7 @@ class JobsWidget extends \WP_Widget {
     $geolocation = isset( $instance['geolocation'] ) ? $instance['geolocation'] : 1;
     $keyword     = ! empty( $instance['keyword'] ) ? $instance['keyword'] : '';
     $powered_by  = isset( $instance['powered_by'] ) ? $instance['powered_by'] : 1;
+    $portals     = isset( $instance['portals'] ) ? $instance['portals'] : array();
     ?>
     <p>
     <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
@@ -166,15 +150,15 @@ class JobsWidget extends \WP_Widget {
       <li><code>[app_url]</code> - <?php _e( 'Job application URL' ); ?>
       <li><code>[title]</code> - <?php _e( 'Job title' ); ?>
       <li><code>[company]</code> - <?php _e( 'Company' ); ?>
+      <li><code>[description]</code> - <?php _e( 'Job description' ); ?>
       <li><code>[location]</code> - <?php _e( 'Job location' ); ?>
     </ul>
 
     <h4><?php _e( 'Available APIs:' ); ?></h4>
     <?
-
+    $portals = ! empty( $instance['portals'] ) ? $instance['portals'] : array();
     foreach ( $jobifyAPIs as $key => $ary )
     {
-      $enabled = ! empty( $instance[$ary['name']] ) ? $instance[$ary['name']] : 0;
       ?>
       <div class="jobify__api">
         <div class="jobify__api__row">
@@ -182,10 +166,10 @@ class JobsWidget extends \WP_Widget {
             <img src="<?php echo  $ary['logo']; ?>" alt="<?php echo $ary['title']; ?>">
           </div>
           <div class="jobify__api__half" style="line-height: 50px;">
-            <label><input type="checkbox" name="<?php echo $this->get_field_name( $ary['name'] ); ?>" id="<?php echo $this->get_field_id( $ary['name'] ); ?>" value="1"<?php if ( $enabled ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable' ); ?> <?php echo $ary['title']; ?></label>
+            <label><input type="checkbox" name="<?php echo $this->get_field_name( 'portals'); ?>[]" id="<?php echo $this->get_field_id( 'portals' ); ?>" value="<?php echo esc_attr( $ary['key'] ); ?>"<?php if ( in_array( $ary['key'], $portals ) ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable' ); ?> <?php echo $ary['title']; ?></label>
           </div>
         </div>
-        <?php if ( $enabled ): ?>
+        <?php if ( in_array( $ary['key'], $portals ) ): ?>
           <?php foreach ( $ary['options'] as $k => $option ):
           if ( isset( $option['group'] ) &&  is_array( $option['group'] ) ):
             ?>
@@ -265,11 +249,10 @@ class JobsWidget extends \WP_Widget {
     $instance['keyword']     = ( ! empty( $new_instance['keyword'] ) ) ? strip_tags( $new_instance['keyword'] ) : '';
     $instance['geolocation'] = ( ! empty( $new_instance['geolocation'] ) ) ? strip_tags( $new_instance['geolocation'] ) : '';
     $instance['powered_by']  = ( ! empty( $new_instance['powered_by'] ) ) ? strip_tags( $new_instance['powered_by'] ) : '';
+    $instance['portals']     = ( ! empty( $new_instance['portals'] ) ) ? $new_instance['portals'] : array();
 
     foreach ( $jobifyAPIs as $key => $ary )
     {
-      $instance[$ary['name']] = ( ! empty( $new_instance[$ary['name']] ) ) ? strip_tags( $new_instance[$ary['name']] ) : 0;
-
       foreach ( $ary['options'] as $k => $option )
       {
         if ( isset( $option['group'] ) &&  is_array( $option['group'] ) )

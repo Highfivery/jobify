@@ -3,14 +3,14 @@ $settings = jobify_settings();
 if ( ! empty( $settings['usajobs_email'] ) && ! empty( $settings['usajobs_api_key'] ) )
 {
   jobify_addAPI( array(
+    'key'     => 'usajobs',
     'title'   => __( 'USAJOBS', 'jobify' ),
     'logo'    => plugins_url( 'img/usajobs.jpg' , JOBIFY_PLUGIN ),
-    'name'    => 'usajobs',
     'getJobs' => function( $options ) {
       $settings = jobify_settings();
       $jobs     = array();
 
-      $results = wp_cache_get( 'usajobsresults', 'jobify' );
+      $results = wp_cache_get( 'jobs-usajobs-' . jobify_string( $options ), 'jobify' );
       if ( false === $results )
       {
 
@@ -60,7 +60,7 @@ if ( ! empty( $settings['usajobs_email'] ) && ! empty( $settings['usajobs_api_ke
 
         $results = json_decode( $response );
 
-        wp_cache_set( 'usajobsresults', $results, 'jobify', 43200 ); // Half a day
+        wp_cache_set( 'jobs-usajobs-' . jobify_string( $options ), $results, 'jobify', 43200 ); // Half a day
 
         $search_results = ( ! empty ( $results->SearchResult->SearchResultItems ) ) ? $results->SearchResult->SearchResultItems : false;
 

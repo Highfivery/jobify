@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Jobify
  * Plugin URI: https://benmarshall.me/jobify
- * Description: Jobify allows easy site integration of job postings from all of the major sites like GitHub, Indeed &amp; USAJOBS.
- * Version: 1.1.0
+ * Description: Official fully-featured job board plugin that seamlessly integrates with GitHub Jobs, Indeed &amp; more!
+ * Version: 1.3.0
  * Author: Ben Marshall
  * Text Domain: jobify
  * Domain Path: /languages
@@ -63,11 +63,6 @@ require_once JOBIFY_ROOT . 'src' . DIRECTORY_SEPARATOR . 'helpers.php';
  * Include widgets.
  */
 require_once JOBIFY_ROOT . 'src' . DIRECTORY_SEPARATOR . 'Jobify/JobsWidget.class.php';
-
-/**
- * Include add-ons.
- */
-require_once JOBIFY_ROOT . 'src' . DIRECTORY_SEPARATOR . 'indeed.php';
 
 spl_autoload_register( 'jobify_autoloader' );
 function jobify_autoloader( $class_name ) {
