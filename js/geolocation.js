@@ -1,7 +1,7 @@
 "use strict";
 
 ( function( $ ) {
-  var JobifyApp = function() {
+  var JobifyGeolocation = function() {
 
     let methods = {
       tplParse: function( tpl, obj ) {
@@ -66,7 +66,7 @@
 
             if ( jobs.length > 0 ) {
               $( jobs ).each( function() {
-                html += methods.tplParse( tpl, this );
+                html += "<div class='jobifyJob' data-portal='" + this.portal + "'>" + methods.tplParse( tpl, this ) + "</div>";
                 cnt++;
                 if ( cnt >= limit ) return false;
               });
@@ -79,5 +79,5 @@
     });
   };
 
-  var JobifyApp = new JobifyApp();
+  var JobifyGeolocation = new JobifyGeolocation();
 })( jQuery );

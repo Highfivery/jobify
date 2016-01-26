@@ -63,6 +63,8 @@ jobify_addAPI( array(
               'portal'   => 'indeed',
               'title'    => ( ! empty( $ary['jobtitle'] ) ) ? $ary['jobtitle'] : false,
               'company'  => ( ! empty( $ary['company'] ) ) ? $ary['company'] : false,
+              //'company_logo' => ( ! empty( $obj->company_logo ) ) ? $obj->company_logo : false,
+              'company_url'   => ( ! empty( $obj->company_url ) ) ? $obj->company_url : false,
               'city'     => ( ! empty( $ary['city'] ) ) ? $ary['city'] : false,
               'state'    => ( ! empty( $ary['state'] ) ) ? $ary['state'] : false,
               'country'  => ( ! empty( $ary['country'] ) ) ? $ary['country'] : false,
@@ -84,6 +86,7 @@ jobify_addAPI( array(
               //'address'  => ( ! empty( $ary['address'] ) ) ? $ary['address'] : false,
               //'phone'  => ( ! empty( $ary['phone'] ) ) ? $ary['phone'] : false,
               //'email'  => ( ! empty( $ary['email'] ) ) ? $ary['email'] : false,
+              //'type'  => ( ! empty( $ary['type'] ) ) ? $ary['type'] : false,
             );
           }
         }

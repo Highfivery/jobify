@@ -25,13 +25,18 @@ class Jobify_Shortcodes {
     ob_start();
     if ( count( $jobs ) > 0 )
     {
+      // Add the tracking script
+      wp_enqueue_script( 'jobify-tracker' );
+
       foreach( $jobs as $key => $ary )
       {
-        echo jobify_parse( html_entity_decode( $content ), $ary );
+        echo jobify_job_result( html_entity_decode( $content ), $ary );
       }
 
       if ( in_array( 'indeed', $args['portals'] ) )
       {
+        wp_enqueue_script( 'jobify-indeed' );
+
         echo  '<div class="jobify__indeed-attribution">' . sprintf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
     href="%s" title="Job Search"><img
     src="%s" style="border: 0;

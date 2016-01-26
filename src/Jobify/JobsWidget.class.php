@@ -23,7 +23,6 @@ class JobsWidget extends \WP_Widget {
   public function widget( $args, $instance ) {
     global $jobifyAPIs;
 
-
     // Get the jobs
     $jobArgs = array(
       'keyword'     => ( ! empty( $instance['keyword'] ) ) ? $instance['keyword'] : false,
@@ -50,6 +49,9 @@ class JobsWidget extends \WP_Widget {
     }
 
     if ( count( $jobs ) > 0 ) {
+      // Add the tracking script
+      wp_enqueue_script( 'jobify-tracker' );
+
       echo $openContainer;
       shuffle( $jobs );
       $cnt = 0;
@@ -61,23 +63,10 @@ class JobsWidget extends \WP_Widget {
         }
         else
         {
-          echo jobify_parse( $instance['template'], $ary );
+          echo jobify_job_result( $instance['template'], $ary );
         }
       }
       echo '</div>';
-
-      if ( in_array( 'indeed', $jobArgs['portals'] ) )
-      {
-        wp_enqueue_script( 'jobify-indeed' );
-        ?>
-        <div class="jobify__indeed-attribution">
-          <?php printf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
-    href="%s" title="Job Search"><img
-    src="%s" style="border: 0;
-    vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', 'http://www.indeed.com/p/jobsearch.gif' ); ?>
-        </div>
-        <?php
-      }
     }
     else
     {
@@ -99,6 +88,7 @@ class JobsWidget extends \WP_Widget {
     {
       if ( in_array( 'indeed', $instance['portals'] ) )
       {
+        wp_enqueue_script( 'jobify-indeed' );
         echo  '<div class="jobify__indeed-attribution">' . sprintf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
     href="%s" title="Job Search"><img
     src="%s" style="border: 0;
@@ -109,7 +99,7 @@ class JobsWidget extends \WP_Widget {
     // Check if geolocation is enabled
     if ( $instance['geolocation'] )
     {
-      wp_enqueue_script( 'jobify-ajax' );
+      wp_enqueue_script( 'jobify-geolocation' );
       echo '<div id="jobify-' . $rand . '" style="display: none !important;">' . $instance['template'] . '</div>';
     }
 

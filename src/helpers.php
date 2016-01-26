@@ -221,3 +221,31 @@ if ( ! function_exists( 'jobify_powered_by' ) )
     echo $strings[rand(0, (count( $strings ) - 1))];
   }
 }
+
+if ( ! function_exists( 'jobify_job_result' ) )
+{
+  function jobify_job_result( $tpl, $args )
+  {
+    $job = '<div class="jobifyJob" data-portal="' . esc_attr( $args['portal']) . '">' . jobify_parse( $tpl, $args ) . '</div>';
+    if ( ! empty( $args['portal'] ) && 'indeed' === $args['portal'] )
+    {
+      $indeedID = jobify_between( $args['custom']['onmousedown'], "indeed_clk(this, '", "');" );
+      $job = '<div class="jobifyJob" data-portal="' . esc_attr( $args['portal']) . '" data-id="' . esc_attr( $indeedID ). '">' . jobify_parse( $tpl, $args ) . '</div>';
+    }
+    return $job;
+  }
+}
+
+if ( ! function_exists( 'jobify_between' ) )
+{
+  function jobify_between( $string, $start, $end )
+  {
+    $string = ' ' . $string;
+    $ini = strpos( $string, $start );
+    if ( $ini == 0 ) return '';
+    $ini += strlen( $start );
+    $len = strpos( $string, $end, $ini ) - $ini;
+
+    return substr($string, $ini, $len);
+  }
+}

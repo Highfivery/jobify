@@ -70,14 +70,33 @@ if ( ! empty( $settings['usajobs_email'] ) && ! empty( $settings['usajobs_api_ke
           {
             //print_r($obj);
             $jobs[] = array(
-              'title'    => $obj->MatchedObjectDescriptor->PositionTitle,
-              'company'  => $obj->MatchedObjectDescriptor->OrganizationName,
-              'city'     => $obj->MatchedObjectDescriptor->PositionLocation[0]->CityName,
-              'state'    => $obj->MatchedObjectDescriptor->PositionLocation[0]->CountrySubDivisionCode,
-              'country'  => $obj->MatchedObjectDescriptor->PositionLocation[0]->CountryCode,
-              'desc'     => $obj->MatchedObjectDescriptor->PositionFormattedDescription[0]->Content,
-              'app_url'  => $obj->MatchedObjectDescriptor->PositionURI,
-              'location' => $obj->MatchedObjectDescriptor->PositionLocation[0]->LocationName,
+              'portal'   => 'usajobs',
+              'title'    => ( ! empty( $obj->MatchedObjectDescriptor->PositionTitle ) ) ? $obj->MatchedObjectDescriptor->PositionTitle : false,
+              'company'  => ( ! empty( $obj->MatchedObjectDescriptor->OrganizationName ) ) ? $obj->MatchedObjectDescriptor->OrganizationName : false,
+              //'company_logo' => ( ! empty( $obj->company_logo ) ) ? $obj->company_logo : false,
+              //'company_url'   => ( ! empty( $obj->company_url ) ) ? $obj->company_url : false,
+              'city'     => ( ! empty( $obj->MatchedObjectDescriptor->PositionLocation[0]->CityName ) ) ? $obj->MatchedObjectDescriptor->PositionLocation[0]->CityName : false,
+              'state'    => ( ! empty( $obj->MatchedObjectDescriptor->PositionLocation[0]->CountrySubDivisionCode ) ) ? $obj->MatchedObjectDescriptor->PositionLocation[0]->CountrySubDivisionCode : false,
+              'country'  => ( ! empty( $obj->MatchedObjectDescriptor->PositionLocation[0]->CountryCode ) ) ? $obj->MatchedObjectDescriptor->PositionLocation[0]->CountryCode : false,
+              'desc'     => ( ! empty( $obj->MatchedObjectDescriptor->PositionFormattedDescription[0]->Content ) ) ? $obj->MatchedObjectDescriptor->PositionFormattedDescription[0]->Content : false,
+              'app_url'  => ( ! empty( $obj->MatchedObjectDescriptor->PositionURI ) ) ? $obj->MatchedObjectDescriptor->PositionURI : false,
+              //'lat'      => ( ! empty( $ary['latitude'] ) ) ? $ary['latitude'] : false,
+              //'long'     => ( ! empty( $ary['longitude'] ) ) ? $ary['longitude'] : false,
+              //'date'     => ( ! empty( $ary['date'] ) ) ? $ary['date'] : false,
+              'location' => ( ! empty( $obj->MatchedObjectDescriptor->PositionLocation[0]->LocationName ) ) ? $obj->MatchedObjectDescriptor->PositionLocation[0]->LocationName : false,
+              /*'custom'   => array(
+                'onmousedown'           => ( ! empty( $ary['onmousedown'] ) ) ? $ary['onmousedown'] : false,
+                'source'                => ( ! empty( $ary['source'] ) ) ? $ary['source'] : false,
+                'sponsored'             => ( ! empty( $ary['sponsored'] ) ) ? $ary['sponsored'] : false,
+                'expired'               => ( ! empty( $ary['expired'] ) ) ? $ary['expired'] : false,
+                'indeedApply'           => ( ! empty( $ary['indeedApply'] ) ) ? $ary['indeedApply'] : false,
+                'formattedRelativeTime' => ( ! empty( $ary['formattedRelativeTime'] ) ) ? $ary['formattedRelativeTime'] : false,
+                'noUniqueUrl'           => ( ! empty( $ary['noUniqueUrl'] ) ) ? $ary['noUniqueUrl'] : false,
+              )*/
+              //'address'  => ( ! empty( $ary['address'] ) ) ? $ary['address'] : false,
+              //'phone'  => ( ! empty( $ary['phone'] ) ) ? $ary['phone'] : false,
+              //'email'  => ( ! empty( $ary['email'] ) ) ? $ary['email'] : false,
+              //'type'  => ( ! empty( $ary['type'] ) ) ? $ary['type'] : false,
             );
           }
         }
