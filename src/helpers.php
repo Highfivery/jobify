@@ -82,8 +82,19 @@ if ( ! function_exists( 'jobify_parse' ) )
     $replace = array();
     foreach ( $args as $key => $value )
     {
-      $find[]    = '[' . $key . ']';
-      $replace[] = $value;
+      if ( is_array( $value ) )
+      {
+        foreach ( $value as $k => $v )
+        {
+          $find[]    = '[' . $k . ']';
+          $replace[] = $v;
+        }
+      }
+      else
+      {
+        $find[]    = '[' . $key . ']';
+        $replace[] = $value;
+      }
     }
 
     $string = str_replace( $find, $replace, $string );

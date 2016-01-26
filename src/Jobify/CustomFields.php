@@ -3,7 +3,7 @@ class Jobify_CustomFields {
   public function run() {
     add_action( 'widgets_init', function(){
 
-
+/*
 
 if(function_exists("register_field_group"))
 {
@@ -442,7 +442,7 @@ if(function_exists("register_field_group"))
     'menu_order' => 0,
   ));
 }
-
+*/
 
 
 

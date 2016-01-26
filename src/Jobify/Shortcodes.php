@@ -60,22 +60,22 @@ class Jobify_Shortcodes {
     {
       case 'all-in-one':
         ?>
-<form action='http://www.indeed.com/jobs' METHOD='GET'>
+<form action='https://www.indeed.com/jobs' METHOD='GET'>
     <input type="hidden" name="indpubnum" value="<?php echo $publisher_id; ?>">
 
     <table cellspacing='0' style='font-family:arial'>
         <tr><td style='font-size:16px;color:#F60'><b><?php echo _e( 'Job Search', 'jobify' ); ?></b></td><td> </td></tr>
         <tr>
             <td><input name='q' value='' size='25'></td>
-            <td><input type='submit' value='Find Jobs'/></td>
+            <td><input type='submit' value='<?php echo esc_attr( __( 'Find Jobs', 'jobify' ) ); ?>'/></td>
         </tr>
         <tr>
-            <td valign='top' style='font-size:10px'>job title, keywords, company, location</td>
+            <td valign='top' style='font-size:10px'><?php _e( 'job title, keywords, company, location', 'jobify' ); ?></td>
             <td colspan='1' valign='top' style='font-size:13px;'>
                 <span id=indeed_at>
-                    <a href="http://www.indeed.com/?indpubnum=<?php echo $publisher_id; ?>" style="text-decoration:none; color: #000">jobs by</a>
-                    <a href="http://www.indeed.com/?indpubnum=<?php echo $publisher_id; ?>" title=Job Search>
-                        <img src="http://www.indeed.com/p/jobsearch.gif" style="border: 0;vertical-align: middle;" alt="job search">
+                    <a href="https://www.indeed.com/?indpubnum=<?php echo $publisher_id; ?>" style="text-decoration:none; color: #000"><?php _e( 'jobs by', 'jobify' ); ?></a>
+                    <a href="https://www.indeed.com/?indpubnum=<?php echo $publisher_id; ?>" title=Job Search>
+                        <img src="https://www.indeed.com/p/jobsearch.gif" style="border: 0;vertical-align: middle;" alt="job search">
                     </a>
                 </span>
             </td>
@@ -207,16 +207,16 @@ var ind_pgnCnt = <?php echo $pages; ?>;
       }
     }
     </script>
-    <form onsubmit='clearDefaults();' method='get' action='http://www.indeed.com/jobs' id='indeed_jobform' target="_new">
-    <div id="qc"><label><?php _e( 'What', 'jobify' ); ?>:</label><input type='text' onfocus='this.value=""' value='title, keywords' name='q' id='q'></div>
-    <div id="lc"><label><?php _e( 'Where', 'jobify' ); ?>:</label><input type='text' onfocus='this.value=""' value='city, state, or zip' name='l' id='l'></div>
+    <form onsubmit='clearDefaults();' method='get' action='https://www.indeed.com/jobs' id='indeed_jobform' target="_new">
+    <div id="qc"><label><?php _e( 'What', 'jobify' ); ?>:</label><input type='text' onfocus='this.value=""' value='<?php echo esc_attr( __( 'title, keywords', 'jobify' ) ); ?>' name='q' id='q'></div>
+    <div id="lc"><label><?php _e( 'Where', 'jobify' ); ?>:</label><input type='text' onfocus='this.value=""' value='<?php echo esc_attr( __( 'city, state, or zip', 'jobify' ) ); ?>' name='l' id='l'></div>
     <div id='indeed_search_footer'>
       <div style='float:left'><input type='submit' value='Find Jobs' class='findjobs'></div>
     </div>
     <input type='hidden' name='indpubnum' id='indpubnum' value='<?php echo $publisher_id; ?>'>
     </form>
     <div id='indeed_link'>
-      <a title="Job Search" href="http://www.indeed.com/?indpubnum=<?php echo $publisher_id; ?>" target="_new">jobs by <img alt=Indeed src='http://www.indeed.com/p/jobsearch.gif' style='border: 0;vertical-align: bottom;'></a>
+      <a title="Job Search" href="https://www.indeed.com/?indpubnum=<?php echo $publisher_id; ?>" target="_new"><?php _e( 'jobs by', 'jobify' ); ?> <img alt=Indeed src='https://www.indeed.com/p/jobsearch.gif' style='border: 0;vertical-align: bottom;'></a>
     </div>
   </div>
 </div>

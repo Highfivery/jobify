@@ -51,12 +51,13 @@
             lat     : loc.coords.latitude,
             lng     : loc.coords.longitude,
             keyword : keyword,
-            limit   : limit
+            limit   : limit,
+            portals : []
           };
 
           let enabledAPIs = apis.split( "|" );
           for( var i = 0; enabledAPIs.length > i; i++ ) {
-            getJobsParam[enabledAPIs[i]] = 1;
+            getJobsParam['portals'].push( enabledAPIs[i] );
           }
 
           methods.getJobs( getJobsParam, function( jobs ) {

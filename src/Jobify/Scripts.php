@@ -15,11 +15,21 @@ class Jobify_Scripts {
     add_action( 'wp_ajax_jobify_get_jobs', function() {
       check_ajax_referer( 'jobify', 'security' );
 
-      $param             = $_POST['params'];
-      $location          = jobify_get_location( $param['lat'] . ',' .  $param['lng'] );
-      $param['location'] = $location[3];
+      // Get the jobs
+      $jobArgs = array(
+        'keyword'     => ( ! empty( $_POST['params']['keyword'] ) ) ? $_POST['params']['keyword'] : false,
+        'geolocation' => ( ! empty( $_POST['params']['geolocation'] ) ) ? $_POST['params']['geolocation'] : false,
+        'powered_by'  => ( ! empty( $_POST['params']['powered_by'] ) ) ? $_POST['params']['powered_by'] : true,
+        'portals'     => ( ! empty( $_POST['params']['portals'] ) ) ?  $_POST['params']['portals'] : array(),
+      );
 
-      $jobs = jobify_get_jobs( $param );
+      $location = jobify_get_location( $_POST['params']['lat'] . ',' .  $_POST['params']['lng'] );
+      if ( count( $location ) > 0 )
+      {
+        $jobArgs['location'] = $location[3];
+      }
+
+      $jobs = jobify_get_jobs( $jobArgs );
 
       echo json_encode( $jobs );
 

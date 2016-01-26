@@ -23,6 +23,8 @@ class JobsWidget extends \WP_Widget {
   public function widget( $args, $instance ) {
     global $jobifyAPIs;
 
+
+    // Get the jobs
     $jobArgs = array(
       'keyword'     => ( ! empty( $instance['keyword'] ) ) ? $instance['keyword'] : false,
       'location'    => ( ! empty( $instance['location'] ) ) ? $instance['location'] : false,
@@ -32,7 +34,15 @@ class JobsWidget extends \WP_Widget {
     );
     $jobs = jobify_get_jobs( $jobArgs );
 
-    $rand    = time();
+    $rand           = time();
+    $openContainer  = '<div class="jobifyJobs"
+                        data-location="' . esc_attr( $jobArgs['location'] ) . '"
+                        data-geolocation="' . $jobArgs['geolocation'] . '"
+                        data-template="jobify-' . $rand . '"
+                        data-keyword="' . $jobArgs['keyword'] . '"
+                        data-apis="' . implode( '|', $jobArgs['portals'] ) . '"
+                        data-limit="' . $instance['limit'] . '"
+                      >';
 
     echo $args['before_widget'];
     if ( ! empty( $instance['title'] ) ) {
@@ -40,16 +50,9 @@ class JobsWidget extends \WP_Widget {
     }
 
     if ( count( $jobs ) > 0 ) {
+      echo $openContainer;
       shuffle( $jobs );
       $cnt = 0;
-      echo '<div class="jobifyJobs"
-        data-location="' . esc_attr( $jobArgs['location'] ) . '"
-        data-geolocation="' . $jobArgs['geolocation'] . '"
-        data-template="jobify-' . $rand . '"
-        data-keyword="' . $jobArgs['keyword'] . '"
-        data-apis="' . implode( '|', $jobArgs['portals'] ) . '"
-        data-limit="' . $instance['limit'] . '"
-      >';
       foreach ( $jobs as $key => $ary ) { $cnt++;
         if ( ! empty( $instance['limit'] ) && $cnt > $instance['limit'] ) break;
         if ( ! empty( $ary['error'] ) )
@@ -62,12 +65,6 @@ class JobsWidget extends \WP_Widget {
         }
       }
       echo '</div>';
-
-      if ( $instance['geolocation'] )
-      {
-        wp_enqueue_script( 'jobify-ajax' );
-        echo '<div id="jobify-' . $rand . '" style="display: none !important;">' . $instance['template'] . '</div>';
-      }
 
       if ( in_array( 'indeed', $jobArgs['portals'] ) )
       {
@@ -84,7 +81,9 @@ class JobsWidget extends \WP_Widget {
     }
     else
     {
+      echo $openContainer;
       echo '<p>' . __( 'No jobs available at this time.', 'jobify' ) . '</p>';
+      echo '</div>';
     }
 
     if ( $instance['powered_by'] )
@@ -94,6 +93,21 @@ class JobsWidget extends \WP_Widget {
         <?php jobify_powered_by(); ?>
       </div>
       <?php
+    }
+
+    if ( in_array( 'indeed', $instance['portals'] ) )
+    {
+      echo  '<div class="jobify__indeed-attribution">' . sprintf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
+  href="%s" title="Job Search"><img
+  src="%s" style="border: 0;
+  vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', 'http://www.indeed.com/p/jobsearch.gif' ) . '</div>';
+    }
+
+    // Check if geolocation is enabled
+    if ( $instance['geolocation'] )
+    {
+      wp_enqueue_script( 'jobify-ajax' );
+      echo '<div id="jobify-' . $rand . '" style="display: none !important;">' . $instance['template'] . '</div>';
     }
 
     echo $args['after_widget'];
@@ -145,14 +159,7 @@ class JobsWidget extends \WP_Widget {
     <label for="<?php echo $this->get_field_id( 'template' ); ?>"><?php _e( 'Job Template:' ); ?></label>
     <textarea rows="5" class="large-text code" id="<?php echo $this->get_field_id( 'template' ); ?>" name="<?php echo $this->get_field_name( 'template' ); ?>" type="text"><?php echo $template; ?></textarea>
     </p>
-    <h4><?php _e( 'Available template shortcodes' ); ?>:</h4>
-    <ul>
-      <li><code>[app_url]</code> - <?php _e( 'Job application URL' ); ?>
-      <li><code>[title]</code> - <?php _e( 'Job title' ); ?>
-      <li><code>[company]</code> - <?php _e( 'Company' ); ?>
-      <li><code>[description]</code> - <?php _e( 'Job description' ); ?>
-      <li><code>[location]</code> - <?php _e( 'Job location' ); ?>
-    </ul>
+    <?php printf( __( 'For a full list of available template shortcodes, visit <a href="%s">benmarshall.me/jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ); ?>
 
     <h4><?php _e( 'Available APIs:' ); ?></h4>
     <?
@@ -166,7 +173,7 @@ class JobsWidget extends \WP_Widget {
             <img src="<?php echo  $ary['logo']; ?>" alt="<?php echo $ary['title']; ?>">
           </div>
           <div class="jobify__api__half" style="line-height: 50px;">
-            <label><input type="checkbox" name="<?php echo $this->get_field_name( 'portals'); ?>[]" id="<?php echo $this->get_field_id( 'portals' ); ?>" value="<?php echo esc_attr( $ary['key'] ); ?>"<?php if ( in_array( $ary['key'], $portals ) ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable' ); ?> <?php echo $ary['title']; ?></label>
+            <label><input type="checkbox" name="<?php echo $this->get_field_name( 'portals'); ?>[]" id="<?php echo $this->get_field_id( 'portals' ); ?>" value="<?php echo esc_attr( $ary['key'] ); ?>"<?php if ( in_array( $ary['key'], $portals ) ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable' ); ?></label>
           </div>
         </div>
         <?php if ( in_array( $ary['key'], $portals ) ): ?>

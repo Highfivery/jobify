@@ -60,14 +60,30 @@ jobify_addAPI( array(
           foreach ( $results['results'] as $key => $ary ) {
             // Add job to array
             $jobs[] = array(
-              'title'    => $ary['jobtitle'],
-              'company'  => $ary['company'],
-              'city'     => $ary['city'],
-              'state'    => $ary['state'],
-              'country'  => $ary['country'],
-              'desc'     => $ary['snippet'],
-              'app_url'  => $ary['url'],
-              'location' => $ary['formattedLocation']
+              'portal'   => 'indeed',
+              'title'    => ( ! empty( $ary['jobtitle'] ) ) ? $ary['jobtitle'] : false,
+              'company'  => ( ! empty( $ary['company'] ) ) ? $ary['company'] : false,
+              'city'     => ( ! empty( $ary['city'] ) ) ? $ary['city'] : false,
+              'state'    => ( ! empty( $ary['state'] ) ) ? $ary['state'] : false,
+              'country'  => ( ! empty( $ary['country'] ) ) ? $ary['country'] : false,
+              'desc'     => ( ! empty( $ary['snippet'] ) ) ? $ary['snippet'] : false,
+              'app_url'  => ( ! empty( $ary['url'] ) ) ? $ary['url'] : false,
+              'lat'      => ( ! empty( $ary['latitude'] ) ) ? $ary['latitude'] : false,
+              'long'     => ( ! empty( $ary['longitude'] ) ) ? $ary['longitude'] : false,
+              'date'     => ( ! empty( $ary['date'] ) ) ? $ary['date'] : false,
+              'location' => ( ! empty( $ary['formattedLocationFull'] ) ) ? $ary['formattedLocationFull'] : false,
+              'custom'   => array(
+                'onmousedown'           => ( ! empty( $ary['onmousedown'] ) ) ? $ary['onmousedown'] : false,
+                'source'                => ( ! empty( $ary['source'] ) ) ? $ary['source'] : false,
+                'sponsored'             => ( ! empty( $ary['sponsored'] ) ) ? $ary['sponsored'] : false,
+                'expired'               => ( ! empty( $ary['expired'] ) ) ? $ary['expired'] : false,
+                'indeedApply'           => ( ! empty( $ary['indeedApply'] ) ) ? $ary['indeedApply'] : false,
+                'formattedRelativeTime' => ( ! empty( $ary['formattedRelativeTime'] ) ) ? $ary['formattedRelativeTime'] : false,
+                'noUniqueUrl'           => ( ! empty( $ary['noUniqueUrl'] ) ) ? $ary['noUniqueUrl'] : false,
+              )
+              //'address'  => ( ! empty( $ary['address'] ) ) ? $ary['address'] : false,
+              //'phone'  => ( ! empty( $ary['phone'] ) ) ? $ary['phone'] : false,
+              //'email'  => ( ! empty( $ary['email'] ) ) ? $ary['email'] : false,
             );
           }
         }

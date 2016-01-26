@@ -4,7 +4,7 @@ Donate link: https://www.gittip.com/bmarshall511/
 Tags: jobs, widgets, github jobs, job postings, indeed, usajobs, monetize, job board
 Requires at least: 4.4.1
 Tested up to: 4.4.1
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,7 +50,15 @@ See <a href="https://benmarshall.me/jobify" target="_blank">benmarshall.me/jobif
 
 == Screenshots ==
 
+1. Jobify creates a custom sidebar for your job posts
+2. Add job listings to any widget area with the highly configurable Jobify widget
+
 == Changelog ==
+
+= 1.3.1 =
+* Fixed bug with geolocation
+* Added ability to add custom job shortcodes
+* Updated documentation
 
 = 1.3.0 =
 * Updated array sent to <code>jobify_addAPI</code>
