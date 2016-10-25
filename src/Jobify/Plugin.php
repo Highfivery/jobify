@@ -97,6 +97,8 @@ class Jobify_Plugin implements ArrayAccess {
       }
     }
 
+    add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+
     add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
     if ( is_plugin_active_for_network( plugin_basename( JOBIFY_PLUGIN ) ) ) {
@@ -104,5 +106,9 @@ class Jobify_Plugin implements ArrayAccess {
     } else {
       add_filter( 'plugin_action_links_' . plugin_basename( JOBIFY_PLUGIN ), array( $this, 'plugin_action_links' ) );
     }
+  }
+
+  public function load_plugin_textdomain() {
+    load_plugin_textdomain( 'jobify', FALSE, basename( dirname( JOBIFY_PLUGIN ) ) . '/languages/' );
   }
 }

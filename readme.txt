@@ -4,7 +4,7 @@ Donate link: https://www.gittip.com/bmarshall511/
 Tags: jobs, widgets, github jobs, job postings, indeed, usajobs, monetize, job board
 Requires at least: 4.4.1
 Tested up to: 4.6.1
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,7 +55,10 @@ See <a href="https://benmarshall.me/jobify" target="_blank">benmarshall.me/jobif
 
 == Changelog ==
 
-= 1.3.4 =
+= 1.3.5 (Oct. 25, 2016) =
+* Added internationalization
+
+= 1.3.4 (Oct. 25, 2016) =
 * Fix PHP errors
 
 = 1.3.3 =
