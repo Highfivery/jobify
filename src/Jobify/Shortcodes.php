@@ -2,12 +2,14 @@
 class Jobify_Shortcodes {
   public function run()
   {
-    add_action( 'init', function()
-    {
-      add_shortcode( 'jobify', array( $this, 'jobify' ) );
-      add_shortcode( 'indeed-jobroll', array( $this, 'indeed_jobroll' ) );
-      add_shortcode( 'indeed-job-search', array( $this, 'indeed_job_search' ) );
-    });
+    add_action( 'init', array( $this, 'jobify' ) );
+  }
+
+  public function add_shortcodes()
+  {
+    add_shortcode( 'jobify', array( $this, 'jobify' ) );
+    add_shortcode( 'indeed-jobroll', array( $this, 'indeed_jobroll' ) );
+    add_shortcode( 'indeed-job-search', array( $this, 'indeed_job_search' ) );
   }
 
   public function jobify( $atts, $content = null )

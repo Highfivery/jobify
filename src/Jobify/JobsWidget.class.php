@@ -142,7 +142,8 @@ class JobsWidget extends \WP_Widget {
     <span class="description"><?php _e( 'A city name, zip code, or other location search term.', 'jobify' ); ?></span>
     </p>
     <p>
-    <label for="<?php echo $this->get_field_id( 'geolocation' ); ?>"><input id="<?php echo $this->get_field_id( 'geolocation' ); ?>" name="<?php echo $this->get_field_name( 'geolocation' ); ?>" type="checkbox"<?php if ( $geolocation ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable geolocation' ); ?></label>
+    <label for="<?php echo $this->get_field_id( 'geolocation' ); ?>"><input id="<?php echo $this->get_field_id( 'geolocation' ); ?>" name="<?php echo $this->get_field_name( 'geolocation' ); ?>" type="checkbox"<?php if ( $geolocation ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable geolocation' ); ?></label><br>
+    <span class="description"><?php _e( 'Requires a secure origin (see '); ?><a href="https://goo.gl/rStTGz " target="_blank">https://goo.gl/rStTGz).</a>
     </p>
     <p>
     <label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit:' ); ?></label>

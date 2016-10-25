@@ -1,56 +1,7 @@
 <?php
 class Jobify_JobPostType extends Jobify_Plugin {
   public function run() {
-    add_action( 'init', function(){
-      $labels = array(
-        'name'                  => _x( 'Jobs', 'Post Type General Name', 'jobify' ),
-        'singular_name'         => _x( 'Job', 'Post Type Singular Name', 'jobify' ),
-        'menu_name'             => __( 'Jobs', 'jobify' ),
-        'name_admin_bar'        => __( 'Jobs', 'jobify' ),
-        'archives'              => __( 'Job Archives', 'jobify' ),
-        'parent_item_colon'     => __( 'Parent Job:', 'jobify' ),
-        'all_items'             => __( 'All Jobs', 'jobify' ),
-        'add_new_item'          => __( 'Add New Job', 'jobify' ),
-        'add_new'               => __( 'Add New', 'jobify' ),
-        'new_item'              => __( 'New Job', 'jobify' ),
-        'edit_item'             => __( 'Edit Job', 'jobify' ),
-        'update_item'           => __( 'Update Job', 'jobify' ),
-        'view_item'             => __( 'View Job', 'jobify' ),
-        'search_items'          => __( 'Search Job', 'jobify' ),
-        'not_found'             => __( 'Not found', 'jobify' ),
-        'not_found_in_trash'    => __( 'Not found in Trash', 'jobify' ),
-        'featured_image'        => __( 'Featured Image', 'jobify' ),
-        'set_featured_image'    => __( 'Set featured image', 'jobify' ),
-        'remove_featured_image' => __( 'Remove featured image', 'jobify' ),
-        'use_featured_image'    => __( 'Use as featured image', 'jobify' ),
-        'insert_into_item'      => __( 'Insert into job', 'jobify' ),
-        'uploaded_to_this_item' => __( 'Uploaded to this job', 'jobify' ),
-        'items_list'            => __( 'Jobs list', 'jobify' ),
-        'items_list_navigation' => __( 'Jobs list navigation', 'jobify' ),
-        'filter_items_list'     => __( 'Filter jobs list', 'jobify' ),
-      );
-      $args = array(
-        'label'                 => __( 'Job', 'jobify' ),
-        'description'           => __( 'Create job postings.', 'jobify' ),
-        'labels'                => $labels,
-        'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'trackbacks', 'revisions', 'custom-fields', ),
-        'hierarchical'          => false,
-        'public'                => true,
-        'show_ui'               => true,
-        'show_in_menu'          => true,
-        'menu_position'         => 5,
-        'menu_icon'             => 'dashicons-megaphone',
-        'show_in_admin_bar'     => true,
-        'show_in_nav_menus'     => true,
-        'can_export'            => true,
-        'has_archive'           => true,
-        'exclude_from_search'   => false,
-        'publicly_queryable'    => true,
-        'capability_type'       => 'page',
-        'rewrite'               => array( 'slug' => $this->settings['job_post_slug'] ),
-      );
-      register_post_type( 'jobify_posting', $args );
-    });
+    add_action( 'init', array( $this, 'register_post_type' ) );
 
     add_action( 'tgmpa_register', function()
     {
@@ -182,5 +133,57 @@ class Jobify_JobPostType extends Jobify_Plugin {
         'after_title'   => '</h2>',
       ) );
     });
+  }
+
+  public function register_post_type()
+  {
+    $labels = array(
+      'name'                  => _x( 'Jobs', 'Post Type General Name', 'jobify' ),
+      'singular_name'         => _x( 'Job', 'Post Type Singular Name', 'jobify' ),
+      'menu_name'             => __( 'Jobs', 'jobify' ),
+      'name_admin_bar'        => __( 'Jobs', 'jobify' ),
+      'archives'              => __( 'Job Archives', 'jobify' ),
+      'parent_item_colon'     => __( 'Parent Job:', 'jobify' ),
+      'all_items'             => __( 'All Jobs', 'jobify' ),
+      'add_new_item'          => __( 'Add New Job', 'jobify' ),
+      'add_new'               => __( 'Add New', 'jobify' ),
+      'new_item'              => __( 'New Job', 'jobify' ),
+      'edit_item'             => __( 'Edit Job', 'jobify' ),
+      'update_item'           => __( 'Update Job', 'jobify' ),
+      'view_item'             => __( 'View Job', 'jobify' ),
+      'search_items'          => __( 'Search Job', 'jobify' ),
+      'not_found'             => __( 'Not found', 'jobify' ),
+      'not_found_in_trash'    => __( 'Not found in Trash', 'jobify' ),
+      'featured_image'        => __( 'Featured Image', 'jobify' ),
+      'set_featured_image'    => __( 'Set featured image', 'jobify' ),
+      'remove_featured_image' => __( 'Remove featured image', 'jobify' ),
+      'use_featured_image'    => __( 'Use as featured image', 'jobify' ),
+      'insert_into_item'      => __( 'Insert into job', 'jobify' ),
+      'uploaded_to_this_item' => __( 'Uploaded to this job', 'jobify' ),
+      'items_list'            => __( 'Jobs list', 'jobify' ),
+      'items_list_navigation' => __( 'Jobs list navigation', 'jobify' ),
+      'filter_items_list'     => __( 'Filter jobs list', 'jobify' ),
+    );
+    $args = array(
+      'label'                 => __( 'Job', 'jobify' ),
+      'description'           => __( 'Create job postings.', 'jobify' ),
+      'labels'                => $labels,
+      'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'trackbacks', 'revisions', 'custom-fields', ),
+      'hierarchical'          => false,
+      'public'                => true,
+      'show_ui'               => true,
+      'show_in_menu'          => true,
+      'menu_position'         => 5,
+      'menu_icon'             => 'dashicons-megaphone',
+      'show_in_admin_bar'     => true,
+      'show_in_nav_menus'     => true,
+      'can_export'            => true,
+      'has_archive'           => true,
+      'exclude_from_search'   => false,
+      'publicly_queryable'    => true,
+      'capability_type'       => 'page',
+      'rewrite'               => array( 'slug' => $this->settings['job_post_slug'] ),
+    );
+    register_post_type( 'jobify_posting', $args );
   }
 }
