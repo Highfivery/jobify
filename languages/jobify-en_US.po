@@ -4,274 +4,284 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jobify 1.3.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jobify\n"
-"POT-Creation-Date: 2016-10-25 19:44:32+00:00\n"
+"POT-Creation-Date: 2016-10-25 14:44-0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2016-10-25 15:10-0500\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.11\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en_US\n"
 
 #: src/APIs/github.php:4
 msgid "GitHub Jobs"
-msgstr ""
+msgstr "GitHub Jobs\t"
 
 #: src/APIs/github.php:72
 msgid "Full-time"
-msgstr ""
+msgstr "Full-time"
 
 #: src/APIs/github.php:74
 msgid "If you want to limit results to full time positions."
-msgstr ""
+msgstr "If you want to limit results to full time positions."
 
 #: src/APIs/github.php:77
 msgid "Yes"
-msgstr ""
+msgstr "Yes"
 
 #: src/APIs/indeed.php:9
 msgid "Indeed"
-msgstr ""
+msgstr "Indeed"
 
 #: src/APIs/indeed.php:52
 msgid "<b>Indeed API Error:</b> "
-msgstr ""
+msgstr "<b>Indeed API Error:</b> "
 
 #: src/APIs/indeed.php:102
 msgid "Radius"
-msgstr ""
+msgstr "Radius"
 
 #: src/APIs/indeed.php:104
 msgid "Distance from search location."
-msgstr ""
+msgstr "Distance from search location."
 
 #: src/APIs/indeed.php:109
 msgid "Number of Days"
-msgstr ""
+msgstr "Number of Days"
 
 #: src/APIs/indeed.php:111
 msgid "Number of days back to search."
-msgstr ""
+msgstr "Number of days back to search."
 
 #: src/APIs/indeed.php:118 src/APIs/usajobs.php:115
 msgid "Limit"
-msgstr ""
+msgstr "Limit"
 
 #: src/APIs/indeed.php:120
 msgid ""
 "Max number of results from Indeed (Max. 25).<br><br>* Indeed requires a "
 "location to be entered."
 msgstr ""
+"Max number of results from Indeed (Max. 25).<br><br>* Indeed requires a "
+"location to be entered."
 
-#. #-#-#-#-#  plugin.pot (Jobify 1.3.5)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: src/APIs/jobify.php:4 src/Jobify/Admin.php:175 src/Jobify/Admin.php:184
 #: src/Jobify/Admin.php:227 src/Jobify/JobsWidget.class.php:11
 msgid "Jobify"
-msgstr ""
+msgstr "Jobify"
 
 #: src/APIs/usajobs.php:7
 msgid "USAJOBS"
-msgstr ""
+msgstr "USAJOBS"
 
 #: src/APIs/usajobs.php:109
 msgid "Exclude Keywords"
-msgstr ""
+msgstr "Exclude Keywords"
 
 #: src/APIs/usajobs.php:111
 msgid "Search terms to exclude from the search (comma seperated)."
-msgstr ""
+msgstr "Search terms to exclude from the search (comma seperated)."
 
 #: src/APIs/usajobs.php:117
 msgid "Max number of results from USAJOBS (Max. 500)."
-msgstr ""
+msgstr "Max number of results from USAJOBS (Max. 500)."
 
 #: src/Jobify/Admin.php:26 src/Jobify/Plugin.php:46
 msgid "Settings"
-msgstr ""
+msgstr "Settings"
 
 #: src/Jobify/Admin.php:71
 msgid "General Settings"
-msgstr ""
+msgstr "General Settings"
 
 #: src/Jobify/Admin.php:72
 msgid "Indeed Settings"
-msgstr ""
+msgstr "Indeed Settings"
 
 #: src/Jobify/Admin.php:73
 msgid "USAJOBS Settings"
-msgstr ""
+msgstr "USAJOBS Settings"
 
 #: src/Jobify/Admin.php:75
 msgid "Disable Job post type"
-msgstr ""
+msgstr "Disable Job post type"
 
 #: src/Jobify/Admin.php:79
 msgid "Job post type slug"
-msgstr ""
+msgstr "Job post type slug"
 
 #: src/Jobify/Admin.php:82
 msgid "Publisher number"
-msgstr ""
+msgstr "Publisher number"
 
 #: src/Jobify/Admin.php:84
 msgid "API key"
-msgstr ""
+msgstr "API key"
 
 #: src/Jobify/Admin.php:85
 msgid "Email address"
-msgstr ""
+msgstr "Email address"
 
 #: src/Jobify/Admin.php:93
 msgid "Disables the creation of job postings on the site."
-msgstr ""
+msgstr "Disables the creation of job postings on the site."
 
 #: src/Jobify/Admin.php:103
 msgid ""
 "Enter the job post type slug. After updating, re-save the <a href=\"%s"
 "\">site permalink settings</a>."
 msgstr ""
+"Enter the job post type slug. After updating, re-save the <a href=\"%s"
+"\">site permalink settings</a>."
 
 #: src/Jobify/Admin.php:112
 msgid ""
 "If you do not have a publisher number, you can receive one by heading to the "
 "<a href=\"%s\" target=\"_blank\">Indeed Publisher Portal</a>."
 msgstr ""
+"If you do not have a publisher number, you can receive one by heading to the "
+"<a href=\"%s\" target=\"_blank\">Indeed Publisher Portal</a>."
 
 #: src/Jobify/Admin.php:121
 msgid ""
 "If you do not have a API key, you can receive one by heading to the <a href="
 "\"%s\" target=\"_blank\">USAJOBS Developer Site</a>."
 msgstr ""
+"If you do not have a API key, you can receive one by heading to the <a href="
+"\"%s\" target=\"_blank\">USAJOBS Developer Site</a>."
 
 #: src/Jobify/Admin.php:130
 msgid "Enter the email address registered when creating the USAJOBS API key."
-msgstr ""
+msgstr "Enter the email address registered when creating the USAJOBS API key."
 
 #: src/Jobify/Admin.php:174 src/Jobify/Admin.php:183
 msgid "Jobify Settings"
-msgstr ""
+msgstr "Jobify Settings"
 
 #: src/Jobify/JobPostType.php:127
 msgid "Jobify Sidebar"
-msgstr ""
+msgstr "Jobify Sidebar"
 
 #: src/Jobify/JobPostType.php:129
 msgid "Widgets in this area will be shown on all job posts."
-msgstr ""
+msgstr "Widgets in this area will be shown on all job posts."
 
 #: src/Jobify/JobPostType.php:141
 msgctxt "Post Type General Name"
 msgid "Jobs"
-msgstr ""
+msgstr "Jobs"
 
 #: src/Jobify/JobPostType.php:142
 msgctxt "Post Type Singular Name"
 msgid "Job"
-msgstr ""
+msgstr "Job"
 
 #: src/Jobify/JobPostType.php:143 src/Jobify/JobPostType.php:144
 msgid "Jobs"
-msgstr ""
+msgstr "Jobs"
 
 #: src/Jobify/JobPostType.php:145
 msgid "Job Archives"
-msgstr ""
+msgstr "Job Archives"
 
 #: src/Jobify/JobPostType.php:146
 msgid "Parent Job:"
-msgstr ""
+msgstr "Parent Job:"
 
 #: src/Jobify/JobPostType.php:147
 msgid "All Jobs"
-msgstr ""
+msgstr "All Jobs"
 
 #: src/Jobify/JobPostType.php:148
 msgid "Add New Job"
-msgstr ""
+msgstr "Add New Job"
 
 #: src/Jobify/JobPostType.php:149
 msgid "Add New"
-msgstr ""
+msgstr "Add New"
 
 #: src/Jobify/JobPostType.php:150
 msgid "New Job"
-msgstr ""
+msgstr "New Job"
 
 #: src/Jobify/JobPostType.php:151
 msgid "Edit Job"
-msgstr ""
+msgstr "Edit Job"
 
 #: src/Jobify/JobPostType.php:152
 msgid "Update Job"
-msgstr ""
+msgstr "Update Job"
 
 #: src/Jobify/JobPostType.php:153
 msgid "View Job"
-msgstr ""
+msgstr "View Job"
 
 #: src/Jobify/JobPostType.php:154
 msgid "Search Job"
-msgstr ""
+msgstr "Search Job"
 
 #: src/Jobify/JobPostType.php:155
 msgid "Not found"
-msgstr ""
+msgstr "Not found"
 
 #: src/Jobify/JobPostType.php:156
 msgid "Not found in Trash"
-msgstr ""
+msgstr "Not found in Trash"
 
 #: src/Jobify/JobPostType.php:157
 msgid "Featured Image"
-msgstr ""
+msgstr "Featured Image"
 
 #: src/Jobify/JobPostType.php:158
 msgid "Set featured image"
-msgstr ""
+msgstr "Set featured image"
 
 #: src/Jobify/JobPostType.php:159
 msgid "Remove featured image"
-msgstr ""
+msgstr "Remove featured image"
 
 #: src/Jobify/JobPostType.php:160
 msgid "Use as featured image"
-msgstr ""
+msgstr "Use as featured image"
 
 #: src/Jobify/JobPostType.php:161
 msgid "Insert into job"
-msgstr ""
+msgstr "Insert into job"
 
 #: src/Jobify/JobPostType.php:162
 msgid "Uploaded to this job"
-msgstr ""
+msgstr "Uploaded to this job"
 
 #: src/Jobify/JobPostType.php:163
 msgid "Jobs list"
-msgstr ""
+msgstr "Jobs list"
 
 #: src/Jobify/JobPostType.php:164
 msgid "Jobs list navigation"
-msgstr ""
+msgstr "Jobs list navigation"
 
 #: src/Jobify/JobPostType.php:165
 msgid "Filter jobs list"
-msgstr ""
+msgstr "Filter jobs list"
 
 #: src/Jobify/JobPostType.php:168
 msgid "Job"
-msgstr ""
+msgstr "Job"
 
 #: src/Jobify/JobPostType.php:169
 msgid "Create job postings."
-msgstr ""
+msgstr "Create job postings."
 
 #: src/Jobify/JobsWidget.class.php:12
 msgid "Displays a list of job postings."
-msgstr ""
+msgstr "Displays a list of job postings."
 
 #: src/Jobify/JobsWidget.class.php:74
 msgid "No jobs available at this time."
-msgstr ""
+msgstr "No jobs available at this time."
 
 #: src/Jobify/JobsWidget.class.php:92 src/Jobify/Shortcodes.php:42
 msgid ""
@@ -280,124 +290,130 @@ msgid ""
 "    src=\"%s\" style=\"border: 0;\n"
 "    vertical-align: middle;\" alt=\"Indeed job search\"></a></span>"
 msgstr ""
+"<span id=indeed_at><a href=\"%s\">jobs</a> by <a\n"
+"    href=\"%s\" title=\"Job Search\"><img\n"
+"    src=\"%s\" style=\"border: 0;\n"
+"    vertical-align: middle;\" alt=\"Indeed job search\"></a></span>"
 
 #: src/Jobify/JobsWidget.class.php:121
 msgid "Latest Jobs"
-msgstr ""
+msgstr "Latest Jobs"
 
 #: src/Jobify/JobsWidget.class.php:131
 msgid "Title:"
-msgstr ""
+msgstr "Title:"
 
 #: src/Jobify/JobsWidget.class.php:135
 msgid "Keyword:"
-msgstr ""
+msgstr "Keyword:"
 
 #: src/Jobify/JobsWidget.class.php:137
 msgid "A search term, such as \"ruby\" or \"java\"."
-msgstr ""
+msgstr "A search term, such as \"ruby\" or \"java\"."
 
 #: src/Jobify/JobsWidget.class.php:140
 msgid "Location:"
-msgstr ""
+msgstr "Location:"
 
 #: src/Jobify/JobsWidget.class.php:142
 msgid "A city name, zip code, or other location search term."
-msgstr ""
+msgstr "A city name, zip code, or other location search term."
 
 #: src/Jobify/JobsWidget.class.php:145
 msgid "Enable geolocation"
-msgstr ""
+msgstr "Enable geolocation"
 
 #: src/Jobify/JobsWidget.class.php:146
 msgid "Requires a secure origin (see "
-msgstr ""
+msgstr "Requires a secure origin (see "
 
 #: src/Jobify/JobsWidget.class.php:149
 msgid "Limit:"
-msgstr ""
+msgstr "Limit:"
 
 #: src/Jobify/JobsWidget.class.php:153
 msgid "Job Template:"
-msgstr ""
+msgstr "Job Template:"
 
 #: src/Jobify/JobsWidget.class.php:156
 msgid ""
 "For a full list of available template shortcodes, visit <a href=\"%s"
 "\">benmarshall.me/jobify</a>."
 msgstr ""
+"For a full list of available template shortcodes, visit <a href=\"%s"
+"\">benmarshall.me/jobify</a>."
 
 #: src/Jobify/JobsWidget.class.php:158
 msgid "Available APIs:"
-msgstr ""
+msgstr "Available APIs:"
 
 #: src/Jobify/JobsWidget.class.php:170
 msgid "Enable"
-msgstr ""
+msgstr "Enable"
 
 #: src/Jobify/JobsWidget.class.php:226
 msgid "Show powered by Jobify link"
-msgstr ""
+msgstr "Show powered by Jobify link"
 
 #: src/Jobify/Shortcodes.php:74
 msgid "Job Search"
-msgstr ""
+msgstr "Job Search"
 
 #: src/Jobify/Shortcodes.php:77
 msgid "Find Jobs"
-msgstr ""
+msgstr "Find Jobs"
 
 #: src/Jobify/Shortcodes.php:80
 msgid "job title, keywords, company, location"
-msgstr ""
+msgstr "job title, keywords, company, location"
 
 #: src/Jobify/Shortcodes.php:83 src/Jobify/Shortcodes.php:226
 msgid "jobs by"
-msgstr ""
+msgstr "jobs by"
 
 #: src/Jobify/Shortcodes.php:218
 msgid "What"
-msgstr ""
+msgstr "What"
 
 #: src/Jobify/Shortcodes.php:218
 msgid "title, keywords"
-msgstr ""
+msgstr "title, keywords"
 
 #: src/Jobify/Shortcodes.php:219
 msgid "Where"
-msgstr ""
+msgstr "Where"
 
 #: src/Jobify/Shortcodes.php:219
 msgid "city, state, or zip"
-msgstr ""
+msgstr "city, state, or zip"
 
 #: src/class-tgm-plugin-activation.php:333
 msgid "Install Required Plugins"
-msgstr ""
+msgstr "Install Required Plugins"
 
 #: src/class-tgm-plugin-activation.php:334
 msgid "Install Plugins"
-msgstr ""
+msgstr "Install Plugins"
 
 #: src/class-tgm-plugin-activation.php:335
 msgid "Installing Plugin: %s"
-msgstr ""
+msgstr "Installing Plugin: %s"
 
 #: src/class-tgm-plugin-activation.php:336
 msgid "Something went wrong with the plugin API."
-msgstr ""
+msgstr "Something went wrong with the plugin API."
 
 #: src/class-tgm-plugin-activation.php:337
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "This theme requires the following plugin: %1$s."
+msgstr[1] "This theme requires the following plugin: %1$s."
 
 #: src/class-tgm-plugin-activation.php:342
 msgid "This theme recommends the following plugin: %1$s."
 msgid_plural "This theme recommends the following plugins: %1$s."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "This theme recommends the following plugin: %1$s."
+msgstr[1] "This theme recommends the following plugin: %1$s."
 
 #: src/class-tgm-plugin-activation.php:347
 msgid ""
@@ -407,7 +423,11 @@ msgid_plural ""
 "Sorry, but you do not have the correct permissions to install the %1$s "
 "plugins."
 msgstr[0] ""
+"Sorry, but you do not have the correct permissions to install the %1$s "
+"plugin."
 msgstr[1] ""
+"Sorry, but you do not have the correct permissions to install the %1$s "
+"plugin."
 
 #: src/class-tgm-plugin-activation.php:352
 msgid ""
@@ -417,13 +437,17 @@ msgid_plural ""
 "The following plugins need to be updated to their latest version to ensure "
 "maximum compatibility with this theme: %1$s."
 msgstr[0] ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
 msgstr[1] ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
 
 #: src/class-tgm-plugin-activation.php:357
 msgid "There is an update available for: %1$s."
 msgid_plural "There are updates available for the following plugins: %1$s."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "There is an update available for: %1$s."
+msgstr[1] "There is an update available for: %1$s."
 
 #: src/class-tgm-plugin-activation.php:362
 msgid ""
@@ -432,19 +456,21 @@ msgid_plural ""
 "Sorry, but you do not have the correct permissions to update the %1$s "
 "plugins."
 msgstr[0] ""
+"Sorry, but you do not have the correct permissions to update the %1$s plugin."
 msgstr[1] ""
+"Sorry, but you do not have the correct permissions to update the %1$s plugin."
 
 #: src/class-tgm-plugin-activation.php:367
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "The following required plugin is currently inactive: %1$s."
+msgstr[1] "The following required plugin is currently inactive: %1$s."
 
 #: src/class-tgm-plugin-activation.php:372
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "The following recommended plugin is currently inactive: %1$s."
+msgstr[1] "The following recommended plugin is currently inactive: %1$s."
 
 #: src/class-tgm-plugin-activation.php:377
 msgid ""
@@ -454,88 +480,96 @@ msgid_plural ""
 "Sorry, but you do not have the correct permissions to activate the %1$s "
 "plugins."
 msgstr[0] ""
+"Sorry, but you do not have the correct permissions to activate the %1$s "
+"plugin."
 msgstr[1] ""
+"Sorry, but you do not have the correct permissions to activate the %1$s "
+"plugin."
 
 #: src/class-tgm-plugin-activation.php:382
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Begin installing plugin"
+msgstr[1] "Begin installing plugin"
 
 #: src/class-tgm-plugin-activation.php:387
 msgid "Begin updating plugin"
 msgid_plural "Begin updating plugins"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Begin updating plugin"
+msgstr[1] "Begin updating plugin"
 
 #: src/class-tgm-plugin-activation.php:392
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Begin activating plugin"
+msgstr[1] "Begin activating plugin"
 
 #: src/class-tgm-plugin-activation.php:397
 msgid "Return to Required Plugins Installer"
-msgstr ""
+msgstr "Return to Required Plugins Installer"
 
 #: src/class-tgm-plugin-activation.php:398
 msgid "Return to the dashboard"
-msgstr ""
+msgstr "Return to the dashboard"
 
 #: src/class-tgm-plugin-activation.php:399
 #: src/class-tgm-plugin-activation.php:3029
 msgid "Plugin activated successfully."
-msgstr ""
+msgstr "Plugin activated successfully."
 
 #: src/class-tgm-plugin-activation.php:400
 #: src/class-tgm-plugin-activation.php:2832
 msgid "The following plugin was activated successfully:"
-msgstr ""
+msgstr "The following plugin was activated successfully:"
 
 #: src/class-tgm-plugin-activation.php:401
 msgid "No action taken. Plugin %1$s was already active."
-msgstr ""
+msgstr "No action taken. Plugin %1$s was already active."
 
 #: src/class-tgm-plugin-activation.php:402
 msgid ""
 "Plugin not activated. A higher version of %s is needed for this theme. "
 "Please update the plugin."
 msgstr ""
+"Plugin not activated. A higher version of %s is needed for this theme. "
+"Please update the plugin."
 
 #: src/class-tgm-plugin-activation.php:403
 msgid "All plugins installed and activated successfully. %1$s"
-msgstr ""
+msgstr "All plugins installed and activated successfully. %1$s"
 
 #: src/class-tgm-plugin-activation.php:404
 msgid "Dismiss this notice"
-msgstr ""
+msgstr "Dismiss this notice"
 
 #: src/class-tgm-plugin-activation.php:405
 msgid "Please contact the administrator of this site for help."
-msgstr ""
+msgstr "Please contact the administrator of this site for help."
 
 #: src/class-tgm-plugin-activation.php:520
 msgid "This plugin needs to be updated to be compatible with your theme."
-msgstr ""
+msgstr "This plugin needs to be updated to be compatible with your theme."
 
 #: src/class-tgm-plugin-activation.php:521
 msgid "Update Required"
-msgstr ""
+msgstr "Update Required"
 
 #: src/class-tgm-plugin-activation.php:635
 msgid "Set the parent_slug config variable instead."
-msgstr ""
+msgstr "Set the parent_slug config variable instead."
 
 #: src/class-tgm-plugin-activation.php:828
 #: src/class-tgm-plugin-activation.php:3438
 msgid "Return to the Dashboard"
-msgstr ""
+msgstr "Return to the Dashboard"
 
 #: src/class-tgm-plugin-activation.php:935
 msgid ""
 "The remote plugin package does not contain a folder with the desired slug "
 "and renaming did not work."
 msgstr ""
+"The remote plugin package does not contain a folder with the desired slug "
+"and renaming did not work."
 
 #: src/class-tgm-plugin-activation.php:935
 #: src/class-tgm-plugin-activation.php:938
@@ -543,300 +577,312 @@ msgid ""
 "Please contact the plugin provider and ask them to package their plugin "
 "according to the WordPress guidelines."
 msgstr ""
+"Please contact the plugin provider and ask them to package their plugin "
+"according to the WordPress guidelines."
 
 #: src/class-tgm-plugin-activation.php:938
 msgid ""
 "The remote plugin package consists of more than one file, but the files are "
 "not packaged in a folder."
 msgstr ""
+"The remote plugin package consists of more than one file, but the files are "
+"not packaged in a folder."
 
 #: src/class-tgm-plugin-activation.php:1116
 #: src/class-tgm-plugin-activation.php:2828
 msgctxt "plugin A *and* plugin B"
 msgid "and"
-msgstr ""
+msgstr "and"
 
 #: src/class-tgm-plugin-activation.php:1881
 msgctxt "%s = version number"
 msgid "TGMPA v%s"
-msgstr ""
+msgstr "TGMPA v%s"
 
 #: src/class-tgm-plugin-activation.php:2167
 msgid "Required"
-msgstr ""
+msgstr "Required"
 
 #: src/class-tgm-plugin-activation.php:2170
 msgid "Recommended"
-msgstr ""
+msgstr "Recommended"
 
 #: src/class-tgm-plugin-activation.php:2186
 msgid "WordPress Repository"
-msgstr ""
+msgstr "WordPress Repository"
 
 #: src/class-tgm-plugin-activation.php:2189
 msgid "External Source"
-msgstr ""
+msgstr "External Source"
 
 #: src/class-tgm-plugin-activation.php:2192
 msgid "Pre-Packaged"
-msgstr ""
+msgstr "Pre-Packaged"
 
 #: src/class-tgm-plugin-activation.php:2209
 msgid "Not Installed"
-msgstr ""
+msgstr "Not Installed"
 
 #: src/class-tgm-plugin-activation.php:2213
 msgid "Installed But Not Activated"
-msgstr ""
+msgstr "Installed But Not Activated"
 
 #: src/class-tgm-plugin-activation.php:2215
 msgid "Active"
-msgstr ""
+msgstr "Active"
 
 #: src/class-tgm-plugin-activation.php:2221
 msgid "Required Update not Available"
-msgstr ""
+msgstr "Required Update not Available"
 
 #: src/class-tgm-plugin-activation.php:2224
 msgid "Requires Update"
-msgstr ""
+msgstr "Requires Update"
 
 #: src/class-tgm-plugin-activation.php:2227
 msgid "Update recommended"
-msgstr ""
+msgstr "Update recommended"
 
 #: src/class-tgm-plugin-activation.php:2235
 msgctxt "%1$s = install status, %2$s = update status"
 msgid "%1$s, %2$s"
-msgstr ""
+msgstr "%1$s, %2$s"
 
 #: src/class-tgm-plugin-activation.php:2280
 msgctxt "plugins"
 msgid "All <span class=\"count\">(%s)</span>"
 msgid_plural "All <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "All <span class=\"count\">(%s)</span>"
+msgstr[1] "All <span class=\"count\">(%s)</span>"
 
 #: src/class-tgm-plugin-activation.php:2283
 msgid "To Install <span class=\"count\">(%s)</span>"
 msgid_plural "To Install <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "To Install <span class=\"count\">(%s)</span>"
+msgstr[1] "To Install <span class=\"count\">(%s)</span>"
 
 #: src/class-tgm-plugin-activation.php:2286
 msgid "Update Available <span class=\"count\">(%s)</span>"
 msgid_plural "Update Available <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Update Available <span class=\"count\">(%s)</span>"
+msgstr[1] "Update Available <span class=\"count\">(%s)</span>"
 
 #: src/class-tgm-plugin-activation.php:2289
 msgid "To Activate <span class=\"count\">(%s)</span>"
 msgid_plural "To Activate <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "To Activate <span class=\"count\">(%s)</span>"
+msgstr[1] "To Activate <span class=\"count\">(%s)</span>"
 
 #: src/class-tgm-plugin-activation.php:2371
 msgctxt "as in: \"version nr unknown\""
 msgid "unknown"
-msgstr ""
+msgstr "unknown"
 
 #: src/class-tgm-plugin-activation.php:2379
 msgid "Installed version:"
-msgstr ""
+msgstr "Installed version:"
 
 #: src/class-tgm-plugin-activation.php:2387
 msgid "Minimum required version:"
-msgstr ""
+msgstr "Minimum required version:"
 
 #: src/class-tgm-plugin-activation.php:2399
 msgid "Available version:"
-msgstr ""
+msgstr "Available version:"
 
 #: src/class-tgm-plugin-activation.php:2422
 msgid ""
 "No plugins to install, update or activate. <a href=\"%1$s\">Return to the "
 "Dashboard</a>"
 msgstr ""
+"No plugins to install, update or activate. <a href=\"%1$s\">Return to the "
+"Dashboard</a>"
 
 #: src/class-tgm-plugin-activation.php:2436
 msgid "Plugin"
-msgstr ""
+msgstr "Plugin"
 
 #: src/class-tgm-plugin-activation.php:2437
 msgid "Source"
-msgstr ""
+msgstr "Source"
 
 #: src/class-tgm-plugin-activation.php:2438
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: src/class-tgm-plugin-activation.php:2442
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: src/class-tgm-plugin-activation.php:2443
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: src/class-tgm-plugin-activation.php:2491
 msgctxt "%2$s = plugin name in screen reader markup"
 msgid "Install %2$s"
-msgstr ""
+msgstr "Install %2$s"
 
 #: src/class-tgm-plugin-activation.php:2495
 msgctxt "%2$s = plugin name in screen reader markup"
 msgid "Update %2$s"
-msgstr ""
+msgstr "Update %2$s"
 
 #: src/class-tgm-plugin-activation.php:2500
 msgctxt "%2$s = plugin name in screen reader markup"
 msgid "Activate %2$s"
-msgstr ""
+msgstr "Activate %2$s"
 
 #: src/class-tgm-plugin-activation.php:2570
 msgid "Upgrade message from the plugin author:"
-msgstr ""
+msgstr "Upgrade message from the plugin author:"
 
 #: src/class-tgm-plugin-activation.php:2603
 msgid "Install"
-msgstr ""
+msgstr "Install"
 
 #: src/class-tgm-plugin-activation.php:2609
 msgid "Update"
-msgstr ""
+msgstr "Update"
 
 #: src/class-tgm-plugin-activation.php:2612
 msgid "Activate"
-msgstr ""
+msgstr "Activate"
 
 #: src/class-tgm-plugin-activation.php:2643
 msgid "No plugins were selected to be installed. No action taken."
-msgstr ""
+msgstr "No plugins were selected to be installed. No action taken."
 
 #: src/class-tgm-plugin-activation.php:2645
 msgid "No plugins were selected to be updated. No action taken."
-msgstr ""
+msgstr "No plugins were selected to be updated. No action taken."
 
 #: src/class-tgm-plugin-activation.php:2681
 msgid "No plugins are available to be installed at this time."
-msgstr ""
+msgstr "No plugins are available to be installed at this time."
 
 #: src/class-tgm-plugin-activation.php:2683
 msgid "No plugins are available to be updated at this time."
-msgstr ""
+msgstr "No plugins are available to be updated at this time."
 
 #: src/class-tgm-plugin-activation.php:2788
 msgid "No plugins were selected to be activated. No action taken."
-msgstr ""
+msgstr "No plugins were selected to be activated. No action taken."
 
 #: src/class-tgm-plugin-activation.php:2814
 msgid "No plugins are available to be activated at this time."
-msgstr ""
+msgstr "No plugins are available to be activated at this time."
 
 #: src/class-tgm-plugin-activation.php:3028
 msgid "Plugin activation failed."
-msgstr ""
+msgstr "Plugin activation failed."
 
 #: src/class-tgm-plugin-activation.php:3362
 msgid "Updating Plugin %1$s (%2$d/%3$d)"
-msgstr ""
+msgstr "Updating Plugin %1$s (%2$d/%3$d)"
 
 #: src/class-tgm-plugin-activation.php:3364
 msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
-msgstr ""
+msgstr "An error occurred while installing %1$s: <strong>%2$s</strong>."
 
 #: src/class-tgm-plugin-activation.php:3365
 msgid "The installation of %1$s failed."
-msgstr ""
+msgstr "The installation of %1$s failed."
 
 #: src/class-tgm-plugin-activation.php:3369
 msgid ""
 "The installation and activation process is starting. This process may take a "
 "while on some hosts, so please be patient."
 msgstr ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
 
 #: src/class-tgm-plugin-activation.php:3370
 msgid "%1$s installed and activated successfully."
-msgstr ""
+msgstr "%1$s installed and activated successfully."
 
 #: src/class-tgm-plugin-activation.php:3370
 #: src/class-tgm-plugin-activation.php:3376
 msgid "Show Details"
-msgstr ""
+msgstr "Show Details"
 
 #: src/class-tgm-plugin-activation.php:3370
 #: src/class-tgm-plugin-activation.php:3376
 msgid "Hide Details"
-msgstr ""
+msgstr "Hide Details"
 
 #: src/class-tgm-plugin-activation.php:3371
 msgid "All installations and activations have been completed."
-msgstr ""
+msgstr "All installations and activations have been completed."
 
 #: src/class-tgm-plugin-activation.php:3372
 msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
-msgstr ""
+msgstr "Installing and Activating Plugin %1$s (%2$d/%3$d)"
 
 #: src/class-tgm-plugin-activation.php:3375
 msgid ""
 "The installation process is starting. This process may take a while on some "
 "hosts, so please be patient."
 msgstr ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
 
 #: src/class-tgm-plugin-activation.php:3376
 msgid "%1$s installed successfully."
-msgstr ""
+msgstr "%1$s installed successfully."
 
 #: src/class-tgm-plugin-activation.php:3377
 msgid "All installations have been completed."
-msgstr ""
+msgstr "All installations have been completed."
 
 #: src/class-tgm-plugin-activation.php:3378
 msgid "Installing Plugin %1$s (%2$d/%3$d)"
-msgstr ""
+msgstr "Installing Plugin %1$s (%2$d/%3$d)"
 
 #: src/helpers.php:212
 msgid "Powered by <a href=\"%s\" target=\"_blank\">Jobify</a>."
-msgstr ""
+msgstr "Powered by <a href=\"%s\" target=\"_blank\">Jobify</a>."
 
 #: src/helpers.php:213
 msgid "Powered by <a href=\"%s\" target=\"_blank\">WordPress Jobify</a>."
-msgstr ""
+msgstr "Powered by <a href=\"%s\" target=\"_blank\">WordPress Jobify</a>."
 
 #: src/helpers.php:214
 msgid "Jobs aggregated by <a href=\"%s\" target=\"_blank\">Jobify</a>."
-msgstr ""
+msgstr "Jobs aggregated by <a href=\"%s\" target=\"_blank\">Jobify</a>."
 
 #: src/helpers.php:215
 msgid "Jobs by <a href=\"%s\" target=\"_blank\">Jobify</a>."
-msgstr ""
+msgstr "Jobs by <a href=\"%s\" target=\"_blank\">Jobify</a>."
 
 #: src/helpers.php:216
 msgid "Aggregated by <a href=\"%s\" target=\"_blank\">Jobify</a>."
-msgstr ""
+msgstr "Aggregated by <a href=\"%s\" target=\"_blank\">Jobify</a>."
 
 #: src/helpers.php:217
 msgid "Aggregated by <a href=\"%s\" target=\"_blank\">WordPress Jobify</a>."
-msgstr ""
+msgstr "Aggregated by <a href=\"%s\" target=\"_blank\">WordPress Jobify</a>."
 
 #: src/helpers.php:218
 msgid "<a href=\"%s\" target=\"_blank\">WordPress job plugin</a> by Jobify."
-msgstr ""
+msgstr "<a href=\"%s\" target=\"_blank\">WordPress job plugin</a> by Jobify."
 
 #. Plugin URI of the plugin/theme
 msgid "https://benmarshall.me/jobify"
-msgstr ""
+msgstr "https://benmarshall.me/jobify"
 
 #. Description of the plugin/theme
 msgid ""
 "Official fully-featured job board plugin that seamlessly integrates with "
 "GitHub Jobs, Indeed &amp; more!"
 msgstr ""
+"Official fully-featured job board plugin that seamlessly integrates with "
+"GitHub Jobs, Indeed &amp; more!"
 
 #. Author of the plugin/theme
 msgid "Ben Marshall"
-msgstr ""
+msgstr "Ben Marshall"
 
 #. Author URI of the plugin/theme
 msgid "https://benmarshall.me"
-msgstr ""
+msgstr "https://benmarshall.me"
