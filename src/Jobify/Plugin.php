@@ -108,7 +108,12 @@ class Jobify_Plugin implements ArrayAccess {
     }
   }
 
+  /**
+   * Load plugin textdomain.
+   *
+   * @since 1.3.6
+   */
   public function load_plugin_textdomain() {
-    load_plugin_textdomain( 'jobify', FALSE, basename( dirname( JOBIFY_PLUGIN ) ) . '/languages/' );
+    load_plugin_textdomain( 'jobify', false, dirname( plugin_basename( JOBIFY_PLUGIN ) ) . '/languages' );
   }
 }
