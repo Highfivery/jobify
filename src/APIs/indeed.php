@@ -117,7 +117,7 @@ jobify_addAPI( array(
     array(
       'title'   => __( 'Limit', 'jobify' ),
       'name'    => 'indeed_limit',
-      'desc'    => __( 'Max number of results from Indeed (Max. 25).', 'jobify' ),
+      'desc'    => __( 'Max number of results from Indeed (Max. 25).<br><br>* Indeed requires a location to be entered.', 'jobify' ),
       'default' => '10',
       'type'    => 'number'
     ),
