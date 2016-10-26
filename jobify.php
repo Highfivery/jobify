@@ -3,7 +3,7 @@
  * Plugin Name: Jobify
  * Plugin URI: https://benmarshall.me/jobify
  * Description: Official fully-featured job board plugin that seamlessly integrates with GitHub Jobs, Indeed &amp; more!
- * Version: 1.3.7
+ * Version: 1.3.8
  * Author: Ben Marshall
  * Text Domain: jobify
  * Domain Path: /languages

@@ -92,7 +92,7 @@ class JobsWidget extends \WP_Widget {
         echo  '<div class="jobify__indeed-attribution">' . sprintf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
     href="%s" title="Job Search"><img
     src="%s" style="border: 0;
-    vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', 'http://www.indeed.com/p/jobsearch.gif' ) . '</div>';
+    vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', '//www.indeed.com/p/jobsearch.gif' ) . '</div>';
       }
     }
 
