@@ -3,7 +3,10 @@ jobify_addAPI( array(
   'key'    => 'github_jobs',
   'title'   => __( 'GitHub Jobs', 'jobify' ),
   'logo'    => plugins_url( 'img/github-jobs.jpg' , JOBIFY_PLUGIN ),
-  //'desc'    => __( 'A keyword is required to search on GitHub Jobs.', 'jobify' ),
+  // Since 1.4.0
+  'requirements' => array(
+    'geolocation' => __( 'Supports geolocation if enabled.', 'jobify' )
+  ),
   'getJobs' => function( $args ) {
     $jobs = array();
 
@@ -16,21 +19,17 @@ jobify_addAPI( array(
         $link .= 'description=' . urlencode( $args['keyword'] ) . '&';
       }
 
-      if ( ! empty( $args['location'] ) ) {
+      // Location
+      if ( ! empty( $args['lat'] ) && ! empty( $args['lng'] ) ) {
+        $link .= 'lat=' . urlencode( $args['lat'] ) . '&';
+        $link .= 'long=' . urlencode( $args['lng'] ) . '&';
+      } elseif ( ! empty( $args['location'] ) ) {
         $link .= 'location=' . urlencode( $args['location'] ) . '&';
       }
 
       if ( ! empty( $args['githubjobs_fulltime'] ) ) {
         $link .= 'full_time=' . urlencode( $args['githubjobs_fulltime'] );
       }
-
-      /*if ( ! empty( $args['lat'] ) ) {
-        $link .= 'lat=' . urlencode( $args['lat'] );
-      }
-
-      if ( ! empty( $args['lng'] ) ) {
-        $link .= 'long=' . urlencode( $args['lng'] );
-      }*/
 
       $results = json_decode( file_get_contents( $link ) );
       wp_cache_set( 'jobs-github-jobs-' . jobify_string( $args ), $results, 'jobify', 43200 ); // Half a day

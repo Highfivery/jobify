@@ -121,7 +121,7 @@ class Jobify_Admin extends Jobify_Plugin {
     ?>
     <label>
       <input type="text" class="regular-text" name="jobify_settings[careerjet_api_key]" value="<?php echo esc_attr( $this->settings['careerjet_api_key'] ); ?>">
-      <p class="description"><?php printf( __( 'If you do not have an API key, you can signup for one: <a href="%s" target="_blank">Careerjet Partners</a>.', 'jobify' ), 'http://www.careerjet.com/partners/?ak=b4a44bbbcaa7fe6bfd6039d1e864294e' ); ?></p>
+      <p class="description"><?php printf( __( 'If you do not have an API key, you can receive one by heading to the <a href="%s" target="_blank">Careerjet Partners</a>.', 'jobify' ), 'http://www.careerjet.com/partners/?ak=b4a44bbbcaa7fe6bfd6039d1e864294e' ); ?></p>
     </label>
     <?php
   }

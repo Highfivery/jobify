@@ -10,7 +10,10 @@ jobify_addAPI( array(
   'key'          => 'careerjet',
   'title'        => __( 'Careerjet', 'jobify' ),
   'logo'         => plugins_url( 'img/careerjet.jpg' , JOBIFY_PLUGIN ),
-  'requirements' => array(),
+  // Since 1.4.0
+  'requirements' => array(
+    'geolocation' => __( 'Supports geolocation if enabled.', 'jobify' )
+  ),
   'getJobs'      => function( $args )
   {
     // Create the returned jobs array
@@ -38,7 +41,17 @@ jobify_addAPI( array(
       );
 
       $params['keywords']       = ( ! empty( $args['keyword'] ) ) ? $args['keyword'] : '';
-      $params['location']       = ( ! empty( $args['location'] ) ) ? $args['location'] : false;
+
+      // Location
+      if ( ! empty( $args['lat'] ) && ! empty( $args['lng'] ) ) {
+        $location = jobify_get_location( $args['lat'] . ',' .  $args['lng'] );
+        if ( count( $location ) > 0 )
+        {
+          $params['location'] = $location[3];
+        }
+      } elseif ( ! empty( $args['location'] ) ) {
+        $params['location'] = $args['location'];
+      }
 
       $results = $careerjet->search( $params );
       if ( ! $results->type == 'JOBS' )
