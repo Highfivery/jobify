@@ -4,7 +4,7 @@ Donate link: https://www.gittip.com/bmarshall511/
 Tags: jobs, widgets, github jobs, job postings, indeed, usajobs, monetize, job board
 Requires at least: 4.4.1
 Tested up to: 4.6.1
-Stable tag: 1.3.8
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,13 +12,13 @@ Official fully-featured job board plugin that seamlessly integrates with GitHub 
 
 == Description ==
 
-Jobify is a <b>lightweight &amp; easy</b> to use job board plugin that works with any theme &mdash; simple to setup and robust in features. Includes a powerful developer API that integrates with other sites like <a href="https://jobs.github.com/" target="_blank">GitHub Jobs</a>, <a href="http://www.indeed.com/" target="_blank">Indeed</a>, <a href="https://www.usajobs.gov/" target="_blank">USAJOBS</a> and more.
+Jobify is a <b>lightweight &amp; easy</b> to use job board plugin that works with any theme &mdash; simple to setup and robust in features. Includes a powerful developer API that integrates with other sites like <a href="https://jobs.github.com/" target="_blank">GitHub Jobs</a>, <a href="http://www.indeed.com/" target="_blank">Indeed</a>, <a href="https://www.usajobs.gov/" target="_blank">USAJOBS</a>, <a href="http://www.careerjet.com/" target="_blank">Careerjet</a> and more.
 
 <h4>Jobify Features</h4>
 
 Jobify is fully-featured and highly configurable. Here's just a few of the highlights:
 
-* <b>Monetize your site</b> with the <a href="https://ads.indeed.com/jobroll" target="_blank">Indeed Publisher Program</a>
+* <b>Monetize your site</b> with the <a href="https://ads.indeed.com/jobroll" target="_blank">Indeed Publisher Program</a> &amp; <a href="http://www.careerjet.com/partners/" target="_blank">Careerjet</a>
 * <b>Optional job post type</b> allows you to host your own job postings
 * <b>Customizable widget</b> that displays the latest jobs postings from GitHub Jobs, Indeed, USAJOBS &amp; more
 * <b>Geolocation support</b> to display targeted job postings
@@ -54,6 +54,11 @@ See <a href="https://benmarshall.me/jobify" target="_blank">benmarshall.me/jobif
 2. Add job listings to any widget area with the highly configurable Jobify widget
 
 == Changelog ==
+
+= 1.4.0 (TBD) =
+* Added `requirements` attribute to job network API
+* Added Careerjet API
+* Fixed issue with Indeed publisher key
 
 = 1.3.8 (Oct. 25, 2016) =
 * Fixed non-secure image call

@@ -71,6 +71,7 @@ class Jobify_Admin extends Jobify_Plugin {
     add_settings_section( 'section_general', __( 'General Settings', 'jobify' ), false, 'jobify_settings' );
     add_settings_section( 'section_indeed', __( 'Indeed Settings', 'jobify' ), false, 'jobify_settings' );
     add_settings_section( 'section_usajobs', __( 'USAJOBS Settings', 'jobify' ), false, 'jobify_settings' );
+    add_settings_section( 'section_careerjet', __( 'Careerjet Settings', 'jobify' ), false, 'jobify_settings' );
 
     add_settings_field( 'job_post_type', __( 'Disable Job post type', 'jobify' ), array( $this, 'field_job_post_type' ), 'jobify_settings', 'section_general' );
 
@@ -83,6 +84,8 @@ class Jobify_Admin extends Jobify_Plugin {
 
     add_settings_field( 'usajobs_api_key', __( 'API key', 'jobify' ), array( $this, 'field_usajobs_api_key' ), 'jobify_settings', 'section_usajobs' );
     add_settings_field( 'usajobs_email', __( 'Email address', 'jobify' ), array( $this, 'field_usajobs_email' ), 'jobify_settings', 'section_usajobs' );
+
+    add_settings_field( 'careerjet_api_key', __( 'API Key', 'jobify' ), array( $this, 'field_careerjet_api_key' ), 'jobify_settings', 'section_careerjet' );
   }
 
   public function field_job_post_type()
@@ -110,6 +113,15 @@ class Jobify_Admin extends Jobify_Plugin {
     <label>
       <input type="text" class="regular-text" name="jobify_settings[indeed_publisher_number]" value="<?php echo esc_attr( $this->settings['indeed_publisher_number'] ); ?>">
       <p class="description"><?php printf( __( 'If you do not have a publisher number, you can receive one by heading to the <a href="%s" target="_blank">Indeed Publisher Portal</a>.', 'jobify' ), 'https://ads.indeed.com/jobroll/xmlfeed' ); ?></p>
+    </label>
+    <?php
+  }
+
+  public function field_careerjet_api_key() {
+    ?>
+    <label>
+      <input type="text" class="regular-text" name="jobify_settings[careerjet_api_key]" value="<?php echo esc_attr( $this->settings['careerjet_api_key'] ); ?>">
+      <p class="description"><?php printf( __( 'If you do not have an API key, you can signup for one: <a href="%s" target="_blank">Careerjet Partners</a>.', 'jobify' ), 'http://www.careerjet.com/partners/?ak=b4a44bbbcaa7fe6bfd6039d1e864294e' ); ?></p>
     </label>
     <?php
   }

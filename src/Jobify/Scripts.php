@@ -21,7 +21,8 @@ class Jobify_Scripts {
         'keyword'     => ( ! empty( $_POST['params']['keyword'] ) ) ? $_POST['params']['keyword'] : false,
         'geolocation' => ( ! empty( $_POST['params']['geolocation'] ) ) ? $_POST['params']['geolocation'] : false,
         'powered_by'  => ( ! empty( $_POST['params']['powered_by'] ) ) ? $_POST['params']['powered_by'] : true,
-        'portals'     => ( ! empty( $_POST['params']['portals'] ) ) ?  $_POST['params']['portals'] : array(),
+        'portals'     => ( ! empty( $_POST['params']['portals'] ) ) ?  $_POST['params']['portals'] : array()
+        // @TODO - Add custom API fields
       );
 
       $location = jobify_get_location( $_POST['params']['lat'] . ',' .  $_POST['params']['lng'] );

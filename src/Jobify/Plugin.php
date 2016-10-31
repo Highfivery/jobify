@@ -6,6 +6,7 @@ class Jobify_Plugin implements ArrayAccess {
   public $default_settings =  array(
     'job_post_type'           => '',
     'indeed_publisher_number' => '',
+    'careerjet_api_key'       => '',
     'usajobs_api_key'         => '',
     'usajobs_email'           => '',
     'job_post_slug'           => 'job'
