@@ -25,11 +25,19 @@ class JobsWidget extends \WP_Widget {
 
     // Get the jobs
     $jobArgs = array(
-      'keyword'     => ( ! empty( $instance['keyword'] ) ) ? $instance['keyword'] : false,
-      'location'    => ( ! empty( $instance['location'] ) ) ? $instance['location'] : false,
-      'geolocation' => ( ! empty( $instance['geolocation'] ) ) ? $instance['geolocation'] : false,
-      'powered_by'  => ( ! empty( $instance['powered_by'] ) ) ? $instance['powered_by'] : true,
-      'portals'     => ( ! empty( $instance['portals'] ) ) ?  $instance['portals'] : array(),
+      'keyword'                 => ( ! empty( $instance['keyword'] ) ) ? $instance['keyword'] : false,
+      'location'                => ( ! empty( $instance['location'] ) ) ? $instance['location'] : false,
+      'geolocation'             => ( ! empty( $instance['geolocation'] ) ) ? $instance['geolocation'] : false,
+      'powered_by'              => ( ! empty( $instance['powered_by'] ) ) ? $instance['powered_by'] : true,
+      'portals'                 => ( ! empty( $instance['portals'] ) ) ?  $instance['portals'] : array(),
+
+      'careerjet_locale'        => ( ! empty( $instance['careerjet_locale'] ) ) ?  $instance['careerjet_locale'] : 'en_US',
+      'indeed_radius'           => ( ! empty( $instance['indeed_radius'] ) ) ?  $instance['indeed_radius'] : 25,
+      'indeed_fromage'          => ( ! empty( $instance['indeed_fromage'] ) ) ?  $instance['indeed_fromage'] : 30,
+      'indeed_limit'            => ( ! empty( $instance['indeed_limit'] ) ) ?  $instance['indeed_limit'] : 10,
+      'githubjobs_fulltime'     => ( ! empty( $instance['githubjobs_fulltime'] ) ) ?  $instance['githubjobs_fulltime'] : 0,
+      'usajobs_exclude_keyword' => ( ! empty( $instance['usajobs_exclude_keyword'] ) ) ?  $instance['usajobs_exclude_keyword'] : 0,
+      'usajobs_limit'           => ( ! empty( $instance['usajobs_limit'] ) ) ?  $instance['usajobs_limit'] : 10
     );
     $jobs = jobify_get_jobs( $jobArgs );
 
@@ -78,9 +86,9 @@ class JobsWidget extends \WP_Widget {
     if ( $instance['powered_by'] )
     {
       ?>
-      <div class="jobify__powered-by">
+      <p class="jobify__powered-by">
         <?php jobify_powered_by(); ?>
-      </div>
+      </p>
       <?php
     }
 
@@ -89,10 +97,10 @@ class JobsWidget extends \WP_Widget {
       if ( in_array( 'indeed', $instance['portals'] ) )
       {
         wp_enqueue_script( 'jobify-indeed' );
-        echo  '<div class="jobify__indeed-attribution">' . sprintf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
+        echo  '<p class="jobify__indeed-attribution">' . sprintf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
     href="%s" title="Job Search"><img
     src="%s" style="border: 0;
-    vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', '//www.indeed.com/p/jobsearch.gif' ) . '</div>';
+    vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', '//www.indeed.com/p/jobsearch.gif' ) . '</p>';
       }
     }
 
@@ -157,7 +165,7 @@ class JobsWidget extends \WP_Widget {
 
     <h4><?php _e( 'Available APIs:' ); ?></h4>
     <?
-    $portals = ! empty( $instance['portals'] ) ? $instance['portals'] : array();
+    $portals = ! empty( $instance['portals'] ) ? $instance['portals'] : array( 'careerjet' );
     foreach ( $jobifyAPIs as $key => $ary )
     {
       ?>
@@ -170,7 +178,7 @@ class JobsWidget extends \WP_Widget {
             <label><input type="checkbox" name="<?php echo $this->get_field_name( 'portals'); ?>[]" id="<?php echo $this->get_field_id( 'portals' ); ?>" value="<?php echo esc_attr( $ary['key'] ); ?>"<?php if ( in_array( $ary['key'], $portals ) ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable' ); ?></label>
           </div>
         </div>
-        <?php if ( in_array( $ary['key'], $portals ) ): ?>
+        <?php if ( in_array( $ary['key'], $portals ) && ! empty( $ary['options'] ) ): ?>
           <?php foreach ( $ary['options'] as $k => $option ):
           if ( isset( $option['group'] ) &&  is_array( $option['group'] ) ):
             ?>
@@ -197,7 +205,6 @@ class JobsWidget extends \WP_Widget {
             <?php if ( ! empty( $option['desc'] ) ): ?>
               <p class="description" style="margin-top: .5em;"><?php echo $option['desc']; ?></p>
             <?php endif; ?>
-        <p>
             <?
           else:
           $value = ! empty( $instance[$option['name']] ) ? $instance[$option['name']] : $option['default'];
@@ -206,6 +213,14 @@ class JobsWidget extends \WP_Widget {
             <?php foreach( $option['options'] as $i => $v ): ?>
             <label><input type="checkbox" name="<?php echo $this->get_field_name( $option['name'] ); ?>[]" id="<?php echo $this->get_field_id( $option['name'] ); ?>-<?php echo $i; ?>" value="<?php echo $i; ?>"<?php if ( is_array( $value ) && in_array( $i, $value ) ): ?> checked="checked"<?php endif; ?>> <?php echo $v; ?></label>
             <?php endforeach; ?>
+            <span class="description"><?php echo $option['desc']; ?></span>
+          <?php elseif( isset( $option['type'] ) && $option['type'] === "select" ): ?>
+            <label for="<?php echo $this->get_field_id( $option['name'] ); ?>"><?php echo $option['title']; ?></label><br>
+            <select class="widefat" name="<?php echo $this->get_field_name( $option['name'] ); ?>" id="<?php echo $this->get_field_id( $option['name'] ); ?>">
+              <?php foreach( $option['options'] as $i => $v ): ?>
+                <option value="<?php echo $i; ?>"<?php if ( $i === $value ): ?> selected="selected"<?php endif; ?>><?php echo $v; ?></option>
+              <?php endforeach; ?>
+            </select>
             <span class="description"><?php echo $option['desc']; ?></span>
           <?php else: ?>
           <p>
@@ -217,6 +232,17 @@ class JobsWidget extends \WP_Widget {
           endif; endif; ?>
           <?php if ( ! empty( $ary['desc'] ) ) { echo '<p class="description" style="margin: 1em 0 0 0">'. $ary['desc'] . '</p>'; } ?>
           <?php endforeach; ?>
+          <?php
+          if ( ! empty( $ary['requirements'] ) )
+          {
+            echo '<ul class="description" style="margin-bottom: 0; border-top: 1px solid #ddd; font-size: .8em; padding: 10px 0 0 0;">';
+            foreach( $ary['requirements'] as $key => $msg )
+            {
+              echo '<li>' . $msg;
+            }
+            echo '</ul>';
+          }
+          ?>
         <?php endif; ?>
       </div>
       <?

@@ -5,10 +5,15 @@
 require_once JOBIFY_ROOT . 'src' . DIRECTORY_SEPARATOR . 'indeed.php';
 
 jobify_addAPI( array(
-  'key'         => 'indeed',
-  'title'       => __( 'Indeed', 'jobify' ),
-  'logo'        => plugins_url( 'img/indeed.jpg' , JOBIFY_PLUGIN ),
-  'getJobs'     => function( $args )
+  'key'          => 'indeed',
+  'title'        => __( 'Indeed', 'jobify' ),
+  'logo'         => plugins_url( 'img/indeed.jpg' , JOBIFY_PLUGIN ),
+  // Since 1.4.0
+  'requirements' => array(
+    'location'    => __( 'Indeed API requires a location to be provided.', 'jobify' ),
+    'attribution' => sprintf( __( 'Indeed attribution link required (see <a href="%s">%s</a> for more information).', 'jobify' ), 'https://ads.indeed.com/jobroll/xmlfeed', 'https://ads.indeed.com/jobroll/xmlfeed' )
+  ),
+  'getJobs'      => function( $args )
   {
     // Create the returned jobs array
     $jobs = array();
@@ -17,7 +22,7 @@ jobify_addAPI( array(
     $settings = jobify_settings();
 
     // Set the Indeed publisher number
-    $indeed_publisher_number = ( ! empty ( $args['indeed_publisher_number'] ) ) ? $args['indeed_publisher_number'] : '9769494768160125';
+    $indeed_publisher_number = ( ! empty ( $settings['indeed_publisher_number'] ) ) ? $settings['indeed_publisher_number'] : '9769494768160125';
 
     // Check cache for results
     $results = wp_cache_get( 'jobs-indeed-' . jobify_string( $args ), 'jobify' );
@@ -117,7 +122,7 @@ jobify_addAPI( array(
     array(
       'title'   => __( 'Limit', 'jobify' ),
       'name'    => 'indeed_limit',
-      'desc'    => __( 'Max number of results from Indeed (Max. 25).<br><br>* Indeed requires a location to be entered.', 'jobify' ),
+      'desc'    => __( 'Max number of results from Indeed (Max. 25).', 'jobify' ),
       'default' => '10',
       'type'    => 'number'
     ),
