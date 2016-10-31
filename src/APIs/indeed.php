@@ -11,7 +11,8 @@ jobify_addAPI( array(
   // Since 1.4.0
   'requirements' => array(
     'location'    => __( 'Indeed API requires a location to be provided.', 'jobify' ),
-    'attribution' => sprintf( __( 'Indeed attribution link required (see <a href="%s">%s</a> for more information).', 'jobify' ), 'https://ads.indeed.com/jobroll/xmlfeed', 'https://ads.indeed.com/jobroll/xmlfeed' )
+    'attribution' => sprintf( __( 'Indeed attribution link required (see <a href="%s">%s</a> for more information).', 'jobify' ), 'https://ads.indeed.com/jobroll/xmlfeed', 'https://ads.indeed.com/jobroll/xmlfeed' ),
+    'geolocation' => __( 'Supports geolocation if enabled.', 'jobify' )
   ),
   'getJobs'      => function( $args )
   {
@@ -43,11 +44,22 @@ jobify_addAPI( array(
       );
 
       $params['q']       = ( ! empty( $args['keyword'] ) ) ? $args['keyword'] : '';
-      $params['l']       = ( ! empty( $args['location'] ) ) ? $args['location'] : false;
       $params['radius']  = ( ! empty( $args['indeed_radius'] ) ) ? $args['indeed_radius'] : '25';
       $params['sort']    = ( ! empty( $args['indeed_sort'] ) ) ? $args['indeed_sort'] : 'relevance';
       $params['limit']   = ( ! empty( $args['indeed_limit'] ) ) ? $args['indeed_limit'] : 10;
       $params['fromage'] = ( ! empty( $args['indeed_fromage'] ) ) ? $args['indeed_fromage'] : '';
+
+
+      // Location
+      if ( ! empty( $args['lat'] ) && ! empty( $args['lng'] ) ) {
+        $location = jobify_get_location( $args['lat'] . ',' .  $args['lng'] );
+        if ( count( $location ) > 0 )
+        {
+          $params['l'] = $location[3];
+        }
+      } elseif ( ! empty( $_POST['params']['location'] ) ) {
+        $params['l'] = $args['location'];
+      }
 
       $results = $client->search( $params );
       if ( ! empty( $results['error'] ) )

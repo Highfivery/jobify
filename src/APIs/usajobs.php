@@ -6,6 +6,10 @@ if ( ! empty( $settings['usajobs_email'] ) && ! empty( $settings['usajobs_api_ke
     'key'     => 'usajobs',
     'title'   => __( 'USAJOBS', 'jobify' ),
     'logo'    => plugins_url( 'img/usajobs.jpg' , JOBIFY_PLUGIN ),
+    // Since 1.4.0
+    'requirements' => array(
+      'geolocation' => __( 'Supports geolocation if enabled.', 'jobify' )
+    ),
     'getJobs' => function( $options ) {
       $settings = jobify_settings();
       $jobs     = array();
@@ -26,9 +30,17 @@ if ( ! empty( $settings['usajobs_email'] ) && ! empty( $settings['usajobs_api_ke
           $link .= 'KeywordExclusion=' . urlencode( $options['usajobs_exclude_keyword'] ) . '&';
         }
 
-        if ( ! empty( $options['location'] ) )
-        {
-          $link .= 'LocationName=' . urlencode( $options['location'] ) . '&';
+        // Location
+        if ( ! empty( $args['lat'] ) && ! empty( $args['lng'] ) ) {
+          $location = jobify_get_location( $args['lat'] . ',' .  $args['lng'] );
+          if ( count( $location ) > 0 )
+          {
+             $link .= 'LocationName=' . urlencode( $location[3] ) . '&';
+          }
+
+          $link .= 'LocationName=' . urlencode( $args['lng'] ) . '&';
+        } elseif ( ! empty( $args['location'] ) ) {
+          $link .= 'LocationName=' . urlencode( $args['location'] ) . '&';
         }
 
          if ( ! empty( $options['usajobs_page'] ) )

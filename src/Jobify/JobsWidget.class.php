@@ -46,9 +46,17 @@ class JobsWidget extends \WP_Widget {
                         data-location="' . esc_attr( $jobArgs['location'] ) . '"
                         data-geolocation="' . $jobArgs['geolocation'] . '"
                         data-template="jobify-' . $rand . '"
-                        data-keyword="' . $jobArgs['keyword'] . '"
+                        data-keyword="' . esc_attr( $jobArgs['keyword'] ) . '"
                         data-apis="' . implode( '|', $jobArgs['portals'] ) . '"
                         data-limit="' . $instance['limit'] . '"
+
+                        data-careerjet-locale="' . esc_attr( $jobArgs['careerjet_locale'] ) . '"
+                        data-githubjobs-fulltime="' . esc_attr( $jobArgs['githubjobs_fulltime'] ) . '"
+                        data-indeed-radius="' . esc_attr( $jobArgs['indeed_radius'] ) . '"
+                        data-indeed-fromage="' . esc_attr( $jobArgs['indeed_fromage'] ) . '"
+                        data-indeed-limit="' . esc_attr( $jobArgs['indeed_limit'] ) . '"
+                        data-usajobs-exclude-keyword="' . esc_attr( $jobArgs['usajobs_exclude_keyword'] ) . '"
+                        data-usajobs-limit="' . esc_attr( $jobArgs['usajobs_limit'] ) . '"
                       >';
 
     echo $args['before_widget'];
@@ -235,7 +243,7 @@ class JobsWidget extends \WP_Widget {
           <?php
           if ( ! empty( $ary['requirements'] ) )
           {
-            echo '<ul class="description" style="margin-bottom: 0; border-top: 1px solid #ddd; font-size: .8em; padding: 10px 0 0 0;">';
+            echo '<ul class="description" style="margin: 10px 0 0 0; border-top: 1px solid #ddd; font-size: .8em; padding: 10px 0 0 0;">';
             foreach( $ary['requirements'] as $key => $msg )
             {
               echo '<li>' . $msg;
