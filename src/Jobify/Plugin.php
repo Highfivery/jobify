@@ -3,13 +3,16 @@ class Jobify_Plugin implements ArrayAccess {
   protected $contents;
 
   public $settings = array();
+
+  // Default admin option settings
   public $default_settings =  array(
     'job_post_type'           => '',
     'indeed_publisher_number' => '',
     'careerjet_api_key'       => '',
     'usajobs_api_key'         => '',
     'usajobs_email'           => '',
-    'job_post_slug'           => 'job'
+    'job_post_slug'           => 'job',
+    'template'                => '<p><a href="[app_url]" target="_blank">[title]</a> ([company]) - [location]</p>'
   );
 
   public function __construct() {

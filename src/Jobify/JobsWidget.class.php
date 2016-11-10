@@ -24,40 +24,11 @@ class JobsWidget extends \WP_Widget {
     global $jobifyAPIs;
 
     // Get the jobs
-    $jobArgs = array(
-      'keyword'                 => ( ! empty( $instance['keyword'] ) ) ? $instance['keyword'] : false,
-      'location'                => ( ! empty( $instance['location'] ) ) ? $instance['location'] : false,
-      'geolocation'             => ( ! empty( $instance['geolocation'] ) ) ? $instance['geolocation'] : false,
-      'powered_by'              => ( ! empty( $instance['powered_by'] ) ) ? $instance['powered_by'] : true,
-      'portals'                 => ( ! empty( $instance['portals'] ) ) ?  $instance['portals'] : array(),
+    $rand        = time();
+    $job_options = jobify_job_args( $instance );
+    $jobs        = jobify_get_jobs( $job_options );
 
-      'careerjet_locale'        => ( ! empty( $instance['careerjet_locale'] ) ) ?  $instance['careerjet_locale'] : 'en_US',
-      'indeed_radius'           => ( ! empty( $instance['indeed_radius'] ) ) ?  $instance['indeed_radius'] : 25,
-      'indeed_fromage'          => ( ! empty( $instance['indeed_fromage'] ) ) ?  $instance['indeed_fromage'] : 30,
-      'indeed_limit'            => ( ! empty( $instance['indeed_limit'] ) ) ?  $instance['indeed_limit'] : 10,
-      'githubjobs_fulltime'     => ( ! empty( $instance['githubjobs_fulltime'] ) ) ?  $instance['githubjobs_fulltime'] : 0,
-      'usajobs_exclude_keyword' => ( ! empty( $instance['usajobs_exclude_keyword'] ) ) ?  $instance['usajobs_exclude_keyword'] : 0,
-      'usajobs_limit'           => ( ! empty( $instance['usajobs_limit'] ) ) ?  $instance['usajobs_limit'] : 10
-    );
-    $jobs = jobify_get_jobs( $jobArgs );
-
-    $rand           = time();
-    $openContainer  = '<div class="jobifyJobs"
-                        data-location="' . esc_attr( $jobArgs['location'] ) . '"
-                        data-geolocation="' . $jobArgs['geolocation'] . '"
-                        data-template="jobify-' . $rand . '"
-                        data-keyword="' . esc_attr( $jobArgs['keyword'] ) . '"
-                        data-apis="' . implode( '|', $jobArgs['portals'] ) . '"
-                        data-limit="' . $instance['limit'] . '"
-
-                        data-careerjet-locale="' . esc_attr( $jobArgs['careerjet_locale'] ) . '"
-                        data-githubjobs-fulltime="' . esc_attr( $jobArgs['githubjobs_fulltime'] ) . '"
-                        data-indeed-radius="' . esc_attr( $jobArgs['indeed_radius'] ) . '"
-                        data-indeed-fromage="' . esc_attr( $jobArgs['indeed_fromage'] ) . '"
-                        data-indeed-limit="' . esc_attr( $jobArgs['indeed_limit'] ) . '"
-                        data-usajobs-exclude-keyword="' . esc_attr( $jobArgs['usajobs_exclude_keyword'] ) . '"
-                        data-usajobs-limit="' . esc_attr( $jobArgs['usajobs_limit'] ) . '"
-                      >';
+    $openContainer  = jobify_open_container( $job_options, $rand );
 
     echo $args['before_widget'];
     if ( ! empty( $instance['title'] ) ) {
@@ -94,9 +65,9 @@ class JobsWidget extends \WP_Widget {
     if ( $instance['powered_by'] )
     {
       ?>
-      <p class="jobify__powered-by">
+      <div class="jobify__powered-by">
         <?php jobify_powered_by(); ?>
-      </p>
+      </div>
       <?php
     }
 
@@ -104,11 +75,7 @@ class JobsWidget extends \WP_Widget {
     {
       if ( in_array( 'indeed', $instance['portals'] ) )
       {
-        wp_enqueue_script( 'jobify-indeed' );
-        echo  '<p class="jobify__indeed-attribution">' . sprintf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
-    href="%s" title="Job Search"><img
-    src="%s" style="border: 0;
-    vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', '//www.indeed.com/p/jobsearch.gif' ) . '</p>';
+        jobify_indeed_attribution();
       }
     }
 
@@ -158,7 +125,7 @@ class JobsWidget extends \WP_Widget {
     <span class="description"><?php _e( 'A city name, zip code, or other location search term.', 'jobify' ); ?></span>
     </p>
     <p>
-    <label for="<?php echo $this->get_field_id( 'geolocation' ); ?>"><input id="<?php echo $this->get_field_id( 'geolocation' ); ?>" name="<?php echo $this->get_field_name( 'geolocation' ); ?>" type="checkbox"<?php if ( $geolocation ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable geolocation' ); ?></label><br>
+    <label for="<?php echo $this->get_field_id( 'geolocation' ); ?>"><input id="<?php echo $this->get_field_id( 'geolocation' ); ?>" name="<?php echo $this->get_field_name( 'geolocation' ); ?>" value="1" type="checkbox"<?php if ( $geolocation ): ?> checked="checked"<?php endif; ?>> <?php _e( 'Enable geolocation' ); ?></label><br>
     <span class="description"><?php _e( 'Requires a secure origin (see '); ?><a href="https://goo.gl/rStTGz " target="_blank">https://goo.gl/rStTGz).</a>
     </p>
     <p>

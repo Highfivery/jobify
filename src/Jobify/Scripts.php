@@ -17,34 +17,22 @@ class Jobify_Scripts {
       check_ajax_referer( 'jobify', 'security' );
 
       // Get the jobs
-      $jobArgs = array(
-        'keyword'                 => ( ! empty( $_POST['params']['keyword'] ) ) ? $_POST['params']['keyword'] : false,
-        'geolocation'             => ( ! empty( $_POST['params']['geolocation'] ) ) ? $_POST['params']['geolocation'] : false,
-        'powered_by'              => ( ! empty( $_POST['params']['powered_by'] ) ) ? $_POST['params']['powered_by'] : true,
-        'portals'                 => ( ! empty( $_POST['params']['portals'] ) ) ?  $_POST['params']['portals'] : array(),
-
-        'careerjet_locale'        => ( ! empty( $_POST['params']['careerjet_locale'] ) ) ?  $_POST['params']['careerjet_locale'] : 'en_US',
-        'githubjobs_fulltime'     => ( ! empty( $_POST['params']['githubjobs_fulltime'] ) ) ?  $_POST['params']['githubjobs_fulltime'] : false,
-        'indeed_radius'           => ( ! empty( $_POST['params']['indeed_radius'] ) ) ?  $_POST['params']['indeed_radius'] : 25,
-        'indeed_fromage'          => ( ! empty( $_POST['params']['indeed_fromage'] ) ) ?  $_POST['params']['indeed_fromage'] : 30,
-        'indeed_limit'            => ( ! empty( $_POST['params']['indeed_limit'] ) ) ?  $_POST['params']['indeed_limit'] : 10,
-        'usajobs_exclude_keyword' => ( ! empty( $_POST['params']['usajobs_exclude_keyword'] ) ) ?  $_POST['params']['usajobs_exclude_keyword'] : '',
-        'usajobs_limit'           => ( ! empty( $_POST['params']['usajobs_limit'] ) ) ?  $_POST['params']['usajobs_limit'] : '',
-      );
+      $job_options = jobify_job_args( $_POST['params'] );
 
       // Location
       if ( ! empty( $_POST['params']['lat'] ) && ! empty( $_POST['params']['lng'] ) ) {
-        $jobArgs['lat'] = $_POST['params']['lat'];
-        $jobArgs['lng'] = $_POST['params']['lng'];
+        $job_options['lat'] = $_POST['params']['lat'];
+        $job_options['lng'] = $_POST['params']['lng'];
       } elseif ( ! empty( $_POST['params']['location'] ) ) {
-        $jobArgs['location'] = $args['location'];
+        $job_options['location'] = $args['location'];
       }
 
-      $jobs = jobify_get_jobs( $jobArgs );
+      $jobs = jobify_get_jobs( $job_options );
 
       if ( count( $jobs ) > 0 )
       {
         shuffle( $jobs );
+        $jobs = array_slice( $jobs, 0, $job_options['limit'] );
       }
 
       echo json_encode( $jobs );
