@@ -4,7 +4,7 @@ Donate link: https://www.gittip.com/bmarshall511/
 Tags: jobs, widgets, github jobs, job postings, indeed, usajobs, monetize, job board
 Requires at least: 4.4.1
 Tested up to: 4.6.1
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ Jobify is a <b>lightweight &amp; easy</b> to use job board plugin that works wit
 
 Jobify is fully-featured and highly configurable. Here's just a few of the highlights:
 
-* <b>Monetize your site</b> with the <a href="https://ads.indeed.com/jobroll" target="_blank">Indeed Publisher Program</a> &amp; <a href="http://www.careerjet.com/partners/" target="_blank">Careerjet</a>
+* <b>Monetize your site</b> with the <a href="https://ads.indeed.com/jobroll" target="_blank">Indeed Publisher Program</a> &amp; <a href="http://www.careerjet.com/partners/?ak=b4a44bbbcaa7fe6bfd6039d1e864294e" target="_blank">Careerjet</a>
 * <b>Optional job post type</b> allows you to host your own job postings
 * <b>Customizable widget</b> that displays the latest jobs postings from GitHub Jobs, Indeed, USAJOBS &amp; more
 * <b>Geolocation support</b> to display targeted job postings
@@ -54,6 +54,9 @@ See <a href="https://benmarshall.me/jobify" target="_blank">benmarshall.me/jobif
 2. Add job listings to any widget area with the highly configurable Jobify widget
 
 == Changelog ==
+
+= 1.4.2 (November 10, 2016) =
+* Fixed issue with shortcode not displaying jobs
 
 = 1.4.1 (October 31, 2016) =
 * Updated readme

@@ -2,7 +2,7 @@
 class Jobify_Shortcodes {
   public function run()
   {
-    add_action( 'init', array( $this, 'jobify' ) );
+    add_action( 'init', array( $this, 'add_shortcodes' ) );
   }
 
   public function add_shortcodes()
@@ -14,13 +14,21 @@ class Jobify_Shortcodes {
 
   public function jobify( $atts, $content = null )
   {
+    // Get the jobs
     $args = array(
-      'keyword'     => ( ! empty( $atts['keyword'] ) ) ? $atts['keyword'] : false,
-      'location'    => ( ! empty( $atts['location'] ) ) ? $atts['location'] : false,
-      'geolocation' => ( ! empty( $atts['geolocation'] ) ) ? $atts['geolocation'] : false,
-      'powered_by'  => ( ! empty( $atts['powered_by'] ) ) ? $atts['powered_by'] : true,
-      'powered_by'  => ( ! empty( $atts['powered_by'] ) ) ? $atts['powered_by'] : true,
-      'portals'     => ( ! empty( $atts['portals'] ) ) ? explode( "|", $atts['portals'] ) : array(),
+      'keyword'                 => ( ! empty( $atts['keyword'] ) ) ? $atts['keyword'] : false,
+      'location'                => ( ! empty( $atts['location'] ) ) ? $atts['location'] : false,
+      'geolocation'             => ( ! empty( $atts['geolocation'] ) ) ? $atts['geolocation'] : false,
+      'powered_by'              => ( ! empty( $atts['powered_by'] ) ) ? $atts['powered_by'] : true,
+      'portals'                 => ( ! empty( $atts['portals'] ) ) ?  $atts['portals'] : array(),
+
+      'careerjet_locale'        => ( ! empty( $atts['careerjet_locale'] ) ) ?  $atts['careerjet_locale'] : 'en_US',
+      'indeed_radius'           => ( ! empty( $atts['indeed_radius'] ) ) ?  $atts['indeed_radius'] : 25,
+      'indeed_fromage'          => ( ! empty( $atts['indeed_fromage'] ) ) ?  $atts['indeed_fromage'] : 30,
+      'indeed_limit'            => ( ! empty( $atts['indeed_limit'] ) ) ?  $atts['indeed_limit'] : 10,
+      'githubjobs_fulltime'     => ( ! empty( $atts['githubjobs_fulltime'] ) ) ?  $atts['githubjobs_fulltime'] : 0,
+      'usajobs_exclude_keyword' => ( ! empty( $atts['usajobs_exclude_keyword'] ) ) ?  $atts['usajobs_exclude_keyword'] : 0,
+      'usajobs_limit'           => ( ! empty( $atts['usajobs_limit'] ) ) ?  $atts['usajobs_limit'] : 10
     );
     $jobs = jobify_get_jobs( $args );
 
