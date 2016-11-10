@@ -160,6 +160,23 @@ if ( ! function_exists( 'jobify_get_jobs' ) )
     // Get the available job portal APIs
     global $jobifyAPIs;
 
+    // Set options & defaults
+    $args = array(
+      'keyword'                 => ( ! empty( $args['keyword'] ) ) ? $args['keyword'] : false,
+      'location'                => ( ! empty( $args['location'] ) ) ? $args['location'] : false,
+      'geolocation'             => ( ! empty( $args['geolocation'] ) ) ? $args['geolocation'] : true,
+      'powered_by'              => ( ! empty( $args['powered_by'] ) ) ? $args['powered_by'] : true,
+      'portals'                 => ( ! empty( $args['portals'] ) ) ?  $args['portals'] : array( 'indeed', 'careerjet' ),
+
+      'careerjet_locale'        => ( ! empty( $args['careerjet_locale'] ) ) ?  $args['careerjet_locale'] : 'en_US',
+      'indeed_radius'           => ( ! empty( $args['indeed_radius'] ) ) ?  $args['indeed_radius'] : 25,
+      'indeed_fromage'          => ( ! empty( $args['indeed_fromage'] ) ) ?  $args['indeed_fromage'] : 30,
+      'indeed_limit'            => ( ! empty( $args['indeed_limit'] ) ) ?  $args['indeed_limit'] : 10,
+      'githubjobs_fulltime'     => ( ! empty( $args['githubjobs_fulltime'] ) ) ?  $args['githubjobs_fulltime'] : 0,
+      'usajobs_exclude_keyword' => ( ! empty( $args['usajobs_exclude_keyword'] ) ) ?  $args['usajobs_exclude_keyword'] : 0,
+      'usajobs_limit'           => ( ! empty( $args['usajobs_limit'] ) ) ?  $args['usajobs_limit'] : 10
+    );
+
     // Create the returned jobs array
     $jobs = array();
 
@@ -209,13 +226,38 @@ if ( ! function_exists( 'jobify_powered_by' ) )
   function jobify_powered_by()
   {
     $strings = array(
-      sprintf( __( 'Powered by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Powered by <a href="%s" target="_blank">WordPress Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Jobs aggregated by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Jobs by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Aggregated by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( 'Aggregated by <a href="%s" target="_blank">WordPress Jobify</a>.', 'jobify' ), 'http://benmarshall.me/jobify' ),
-      sprintf( __( '<a href="%s" target="_blank">WordPress job plugin</a> by Jobify.', 'jobify' ), 'http://benmarshall.me/jobify' )
+      sprintf(
+        __( 'Powered by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ),
+        'https://benmarshall.me/jobify?utm_source=jobify%20plugin&utm_medium=powered%20by&utm_campaign=jobify&utm_content=' . urlencode( 'Powered by Jobify' )
+      ),
+      sprintf(
+        __( 'Powered by <a href="%s" target="_blank">WordPress Jobify</a>.', 'jobify' ),
+        'https://benmarshall.me/jobify?utm_source=jobify%20plugin&utm_medium=powered%20by&utm_campaign=jobify&utm_content=' . urlencode( 'Powered by WordPress Jobify' )
+      ),
+      sprintf(
+        __( 'Jobs aggregated by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ),
+        'https://benmarshall.me/jobify?utm_source=jobify%20plugin&utm_medium=powered%20by&utm_campaign=jobify&utm_content=' . urlencode( 'Jobs aggregated by Jobify' )
+      ),
+      sprintf(
+        __( 'Jobs by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ),
+        'https://benmarshall.me/jobify?utm_source=jobify%20plugin&utm_medium=powered%20by&utm_campaign=jobify&utm_content=' . urlencode( 'Jobs by Jobify' )
+      ),
+      sprintf(
+        __( 'Aggregated by <a href="%s" target="_blank">Jobify</a>.', 'jobify' ),
+        'https://benmarshall.me/jobify?utm_source=jobify%20plugin&utm_medium=powered%20by&utm_campaign=jobify&utm_content=' . urlencode( 'Aggregated by Jobify' )
+      ),
+      sprintf(
+        __( 'Aggregated by <a href="%s" target="_blank">WordPress Jobify</a>.', 'jobify' ),
+        'https://benmarshall.me/jobify?utm_source=jobify%20plugin&utm_medium=powered%20by&utm_campaign=jobify&utm_content=' . urlencode( 'Aggregated by WordPress Jobify' )
+      ),
+      sprintf(
+        __( '<a href="%s" target="_blank">WordPress job plugin</a> by Jobify.', 'jobify' ),
+        'https://benmarshall.me/jobify?utm_source=jobify%20plugin&utm_medium=powered%20by&utm_campaign=jobify&utm_content=' . urlencode( 'WordPress job plugin by Jobify' )
+      ),
+      sprintf(
+        __( '<a href="%s" target="_blank">WordPress Job Board</a> by Jobify.', 'jobify' ),
+        'https://benmarshall.me/jobify?utm_source=jobify%20plugin&utm_medium=powered%20by&utm_campaign=jobify&utm_content=' . urlencode( 'WordPress Job Board by Jobify' )
+      ),
     );
 
     echo $strings[rand(0, (count( $strings ) - 1))];
@@ -226,6 +268,11 @@ if ( ! function_exists( 'jobify_job_result' ) )
 {
   function jobify_job_result( $tpl, $args )
   {
+    if ( empty( $tpl ) )
+    {
+      $tpl = '<p><a href="[app_url]" target="_blank">[title]</a> ([company]) - [location]</p>';
+    }
+
     $job = '<div class="jobifyJob" data-portal="' . esc_attr( $args['portal']) . '">' . jobify_parse( $tpl, $args ) . '</div>';
     if ( ! empty( $args['portal'] ) && 'indeed' === $args['portal'] )
     {
