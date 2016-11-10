@@ -54,7 +54,7 @@
           usajobs_exclude_keyword = $( this ).data( 'usajobs-exclude-keyword' ),
           usajobs_limit           = $( this ).data( 'usajobs-limit' );
 
-      if ( geolocation === 1 ) {
+      if ( parseInt( geolocation ) === 1 ) {
         methods.getLocation( function( loc ) {
           let getJobsParam = {
             lat                 : loc.coords.latitude,

@@ -14,6 +14,11 @@ class Jobify_Shortcodes  extends Jobify_Plugin {
 
   public function jobify( $atts, $content = null )
   {
+    if ( ! empty( $atts['portals'] ) )
+    {
+      $atts['portals'] = explode( ',', $atts['portals'] );
+    }
+
     $rand        = time();
     $job_options = jobify_job_args( $atts );
     $jobs        = jobify_get_jobs( $job_options );
