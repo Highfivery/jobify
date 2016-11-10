@@ -37,6 +37,7 @@
 
     let jobs = $( ".jobifyJobs" );
     jobs.each( function() {
+
       let element                 = this,
           geolocation             = $( this ).data( 'geolocation' ),
           template                = $( this ).data( 'template' ),
@@ -50,9 +51,10 @@
           indeed_radius           = $( this ).data( 'indeed-radius' ),
           indeed_fromage          = $( this ).data( 'indeed-fromage' ),
           indeed_limit            = $( this ).data( 'indeed-limit' ),
-          usajobs_exclude_keyword = $( this ).data( 'usajobs-exclude-keyword' );
+          usajobs_exclude_keyword = $( this ).data( 'usajobs-exclude-keyword' ),
+          usajobs_limit           = $( this ).data( 'usajobs-limit' );
 
-      if ( geolocation === 'on' ) {
+      if ( geolocation === 1 ) {
         methods.getLocation( function( loc ) {
           let getJobsParam = {
             lat                 : loc.coords.latitude,

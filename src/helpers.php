@@ -160,23 +160,6 @@ if ( ! function_exists( 'jobify_get_jobs' ) )
     // Get the available job portal APIs
     global $jobifyAPIs;
 
-    // Set options & defaults
-    $args = array(
-      'keyword'                 => ( ! empty( $args['keyword'] ) ) ? $args['keyword'] : false,
-      'location'                => ( ! empty( $args['location'] ) ) ? $args['location'] : false,
-      'geolocation'             => ( ! empty( $args['geolocation'] ) ) ? $args['geolocation'] : true,
-      'powered_by'              => ( ! empty( $args['powered_by'] ) ) ? $args['powered_by'] : true,
-      'portals'                 => ( ! empty( $args['portals'] ) ) ?  $args['portals'] : array( 'indeed', 'careerjet' ),
-
-      'careerjet_locale'        => ( ! empty( $args['careerjet_locale'] ) ) ?  $args['careerjet_locale'] : 'en_US',
-      'indeed_radius'           => ( ! empty( $args['indeed_radius'] ) ) ?  $args['indeed_radius'] : 25,
-      'indeed_fromage'          => ( ! empty( $args['indeed_fromage'] ) ) ?  $args['indeed_fromage'] : 30,
-      'indeed_limit'            => ( ! empty( $args['indeed_limit'] ) ) ?  $args['indeed_limit'] : 10,
-      'githubjobs_fulltime'     => ( ! empty( $args['githubjobs_fulltime'] ) ) ?  $args['githubjobs_fulltime'] : 0,
-      'usajobs_exclude_keyword' => ( ! empty( $args['usajobs_exclude_keyword'] ) ) ?  $args['usajobs_exclude_keyword'] : 0,
-      'usajobs_limit'           => ( ! empty( $args['usajobs_limit'] ) ) ?  $args['usajobs_limit'] : 10
-    );
-
     // Create the returned jobs array
     $jobs = array();
 
@@ -260,7 +243,7 @@ if ( ! function_exists( 'jobify_powered_by' ) )
       ),
     );
 
-    echo $strings[rand(0, (count( $strings ) - 1))];
+    echo '<p>' . $strings[rand(0, (count( $strings ) - 1))] . '</p>';
   }
 }
 
@@ -270,7 +253,7 @@ if ( ! function_exists( 'jobify_job_result' ) )
   {
     if ( empty( $tpl ) )
     {
-      $tpl = '<p><a href="[app_url]" target="_blank">[title]</a> ([company]) - [location]</p>';
+      $tpl = $this->default_settings['template'];
     }
 
     $job = '<div class="jobifyJob" data-portal="' . esc_attr( $args['portal']) . '">' . jobify_parse( $tpl, $args ) . '</div>';
@@ -296,3 +279,64 @@ if ( ! function_exists( 'jobify_between' ) )
     return substr($string, $ini, $len);
   }
 }
+
+if ( ! function_exists( 'jobify_job_args' ) )
+{
+  function jobify_job_args( $args )
+  {
+    $jobArgs = array(
+      'keyword'                 => ( ! empty( $args['keyword'] ) ) ? $args['keyword'] : false,
+      'location'                => ( ! empty( $args['location'] ) ) ? $args['location'] : false,
+      'geolocation'             => ( ! empty( $args['geolocation'] ) ) ? $args['geolocation'] : true,
+      'powered_by'              => ( ! empty( $args['powered_by'] ) ) ? $args['powered_by'] : true,
+      'portals'                 => ( ! empty( $args['portals'] ) ) ?  $args['portals'] : array( 'indeed', 'careerjet' ),
+
+      'careerjet_locale'        => ( ! empty( $args['careerjet_locale'] ) ) ?  $args['careerjet_locale'] : 'en_US',
+      'indeed_radius'           => ( ! empty( $args['indeed_radius'] ) ) ?  $args['indeed_radius'] : 25,
+      'indeed_fromage'          => ( ! empty( $args['indeed_fromage'] ) ) ?  $args['indeed_fromage'] : 30,
+      'indeed_limit'            => ( ! empty( $args['indeed_limit'] ) ) ?  $args['indeed_limit'] : 10,
+      'githubjobs_fulltime'     => ( ! empty( $args['githubjobs_fulltime'] ) ) ?  $args['githubjobs_fulltime'] : 0,
+      'usajobs_exclude_keyword' => ( ! empty( $args['usajobs_exclude_keyword'] ) ) ?  $args['usajobs_exclude_keyword'] : '',
+      'usajobs_limit'           => ( ! empty( $args['usajobs_limit'] ) ) ?  $args['usajobs_limit'] : 10,
+
+      'limit'                   => ( ! empty( $args['limit'] ) ) ?  $args['limit'] : 10,
+    );
+
+    return $jobArgs;
+  }
+}
+
+if ( ! function_exists( 'jobify_open_container' ) )
+{
+  function jobify_open_container( $args, $id )
+  {
+    return '<div class="jobifyJobs"
+              data-location="' . esc_attr( $args['location'] ) . '"
+              data-geolocation="' . $args['geolocation'] . '"
+              data-template="jobify-' . $id . '"
+              data-keyword="' . esc_attr( $args['keyword'] ) . '"
+              data-apis="' . implode( '|', $args['portals'] ) . '"
+              data-limit="' . $args['limit'] . '"
+
+              data-careerjet-locale="' . esc_attr( $args['careerjet_locale'] ) . '"
+              data-githubjobs-fulltime="' . esc_attr( $args['githubjobs_fulltime'] ) . '"
+              data-indeed-radius="' . esc_attr( $args['indeed_radius'] ) . '"
+              data-indeed-fromage="' . esc_attr( $args['indeed_fromage'] ) . '"
+              data-indeed-limit="' . esc_attr( $args['indeed_limit'] ) . '"
+              data-usajobs-exclude-keyword="' . esc_attr( $args['usajobs_exclude_keyword'] ) . '"
+              data-usajobs-limit="' . esc_attr( $args['usajobs_limit'] ) . '"
+            >';
+  }
+}
+
+
+function jobify_indeed_attribution()
+{
+  wp_enqueue_script( 'jobify-indeed' );
+
+  echo '<p class="jobify__indeed-attribution">' . sprintf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
+    href="%s" title="Job Search"><img
+    src="%s" style="border: 0;
+    vertical-align: middle; display: inline" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', '//www.indeed.com/p/jobsearch.gif' ) . '</p>';
+}
+

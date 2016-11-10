@@ -4,7 +4,7 @@ Donate link: https://www.gittip.com/bmarshall511/
 Tags: jobs, widgets, github jobs, job postings, indeed, usajobs, monetize, job board
 Requires at least: 4.4.1
 Tested up to: 4.6.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ See <a href="https://benmarshall.me/jobify" target="_blank">benmarshall.me/jobif
 2. Add job listings to any widget area with the highly configurable Jobify widget
 
 == Changelog ==
+
+= 1.4.3 (November 10, 2016) =
+* Fixed issues with geolocation refreshing
 
 = 1.4.2 (November 10, 2016) =
 * Fixed issue with shortcode not displaying jobs

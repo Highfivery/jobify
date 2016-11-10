@@ -1,5 +1,5 @@
 <?php
-class Jobify_Shortcodes {
+class Jobify_Shortcodes  extends Jobify_Plugin {
   public function run()
   {
     add_action( 'init', array( $this, 'add_shortcodes' ) );
@@ -14,23 +14,16 @@ class Jobify_Shortcodes {
 
   public function jobify( $atts, $content = null )
   {
-    // Get the jobs
-    $args = array(
-      'keyword'                 => ( ! empty( $atts['keyword'] ) ) ? $atts['keyword'] : false,
-      'location'                => ( ! empty( $atts['location'] ) ) ? $atts['location'] : false,
-      'geolocation'             => ( ! empty( $atts['geolocation'] ) ) ? $atts['geolocation'] : false,
-      'powered_by'              => ( ! empty( $atts['powered_by'] ) ) ? $atts['powered_by'] : true,
-      'portals'                 => ( ! empty( $atts['portals'] ) ) ?  $atts['portals'] : array(),
+    $rand        = time();
+    $job_options = jobify_job_args( $atts );
+    $jobs        = jobify_get_jobs( $job_options );
 
-      'careerjet_locale'        => ( ! empty( $atts['careerjet_locale'] ) ) ?  $atts['careerjet_locale'] : 'en_US',
-      'indeed_radius'           => ( ! empty( $atts['indeed_radius'] ) ) ?  $atts['indeed_radius'] : 25,
-      'indeed_fromage'          => ( ! empty( $atts['indeed_fromage'] ) ) ?  $atts['indeed_fromage'] : 30,
-      'indeed_limit'            => ( ! empty( $atts['indeed_limit'] ) ) ?  $atts['indeed_limit'] : 10,
-      'githubjobs_fulltime'     => ( ! empty( $atts['githubjobs_fulltime'] ) ) ?  $atts['githubjobs_fulltime'] : 0,
-      'usajobs_exclude_keyword' => ( ! empty( $atts['usajobs_exclude_keyword'] ) ) ?  $atts['usajobs_exclude_keyword'] : 0,
-      'usajobs_limit'           => ( ! empty( $atts['usajobs_limit'] ) ) ?  $atts['usajobs_limit'] : 10
-    );
-    $jobs = jobify_get_jobs( $args );
+    $openContainer  = jobify_open_container( $job_options, $rand );
+
+    if ( empty( $content ) )
+    {
+      $content = $this->default_settings['template'];
+    }
 
     ob_start();
     if ( count( $jobs ) > 0 )
@@ -38,27 +31,45 @@ class Jobify_Shortcodes {
       // Add the tracking script
       wp_enqueue_script( 'jobify-tracker' );
 
-      foreach( $jobs as $key => $ary )
-      {
-        echo jobify_job_result( html_entity_decode( $content ), $ary );
+      echo $openContainer;
+
+      shuffle( $jobs );
+      $cnt = 0;
+      foreach ( $jobs as $key => $ary ) { $cnt++;
+        if ( ! empty( $job_options['limit'] ) && $cnt > $job_options['limit'] ) break;
+        if ( ! empty( $ary['error'] ) )
+        {
+          echo '<p>' . $ary['error'] . '</p>';
+        }
+        else
+        {
+          echo jobify_job_result( html_entity_decode( $content ), $ary );
+        }
       }
 
-      if ( in_array( 'indeed', $args['portals'] ) )
-      {
-        wp_enqueue_script( 'jobify-indeed' );
+      echo '</div>';
 
-        echo  '<div class="jobify__indeed-attribution">' . sprintf( __( '<span id=indeed_at><a href="%s">jobs</a> by <a
-    href="%s" title="Job Search"><img
-    src="%s" style="border: 0;
-    vertical-align: middle;" alt="Indeed job search"></a></span>', 'jobify' ), 'http://www.indeed.com/', 'http://www.indeed.com/', '//www.indeed.com/p/jobsearch.gif' ) . '</div>';
-      }
-
-      if ( $args['powered_by'] )
+      if ( $job_options['powered_by'] )
       { ?>
       <div class="jobify__powered-by">
         <?php jobify_powered_by(); ?>
       </div>
       <?php }
+
+      if ( in_array( 'indeed', $job_options['portals'] ) )
+      {
+        jobify_indeed_attribution();
+      }
+
+
+      // Check if geolocation is enabled
+      if ( $job_options['geolocation'] )
+      {
+        wp_enqueue_script( 'jobify-geolocation' );
+        echo '<div id="jobify-' . $rand . '" style="display: none !important;">' . $content . '</div>';
+      }
+
+
     }
     return ob_get_clean();
   }
