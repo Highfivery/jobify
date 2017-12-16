@@ -204,7 +204,7 @@ class JobsWidget extends \WP_Widget {
           <span class="description"><?php echo $option['desc']; ?></span>
           </p>
           <?php
-          endif; endif; ?>
+          endif; ?>
           <?php if ( ! empty( $ary['desc'] ) ) { echo '<p class="description" style="margin: 1em 0 0 0">'. $ary['desc'] . '</p>'; } ?>
           <?php endforeach; ?>
           <?php
